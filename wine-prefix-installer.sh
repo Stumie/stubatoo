@@ -7,13 +7,6 @@ WINESTAGINGBRANCH="staging"
 WINEDEVELBRANCH="devel"
 WINEPREFIXFOLDER="$HOME/.wine-prefix"
 
-### Root protection ###
-
-if [ "$(id -u)" = "0" ]; then
-  printf '%s\n' "ERROR! This script must not be run as root!" >&2
-  exit 1
-fi
-
 ### Function declarations ###
 
 # Declare function to show usage of this script
@@ -35,7 +28,7 @@ wine-branch-validity-check () {
 wine-prefix-order-validity-check () {
   wineprefixordertocheck=$1
   wineprefixordervalid=false
-  for i in $(basename -s .sh -a $(ls -ldv $WINEPREFIXORDERS/* | awk '{ print $9 }')); do
+  for i in $(basename -s .sh -a $(ls -1 $WINEPREFIXORDERS/*)); do
     if [[ "$i" = "$wineprefixordertocheck" ]]; then
       wineprefixordervalid=true
     fi
@@ -60,11 +53,11 @@ REQUESTEDWINEPREFIXORDER=$2
 ### Procedures ###
 
 source $SUBSCRIPT/parameter-count-check.sh
+source $SUBSCRIPT/root-protection.sh
 
+root-protection
 parameter-count-check $# 2
-
 wine-branch-validity-check $1
-
 wine-prefix-order-validity-check $REQUESTEDWINEPREFIXORDER
 
 $SUBSCRIPT/inst-reqs.sh wine $WINEBRANCHNAME || { printf '%s\n' "ERROR! Could not install requirements!" >&2 && exit 1; }
