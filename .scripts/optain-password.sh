@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Usage within script: 
+# source $SUBSCRIPT/optain-password.sh
+# optain password
+
 ### Function declarations ###
 
 ask-for-password () {
