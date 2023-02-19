@@ -15,6 +15,6 @@ get-connections () {
 
 ### Procedures ###
 
-$SUBSCRIPT/check-for-software-existence.sh awk column
+$SUBSCRIPT/check-for-software-existence.sh awk column || exit 1
 
 get-connections | column -t

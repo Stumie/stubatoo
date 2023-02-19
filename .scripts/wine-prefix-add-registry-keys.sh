@@ -11,7 +11,7 @@ FULLWINEPREFIXPATH=$2
 
 ### Procedures ###
 
-$SUBSCRIPT/check-for-software-existence.sh dos2unix # Verfiy existence of dos2unix, even if requirements should been fulfilled before.
+$SUBSCRIPT/check-for-software-existence.sh dos2unix || exit 1 # Verfiy existence of dos2unix, even if requirements should been fulfilled before.
 
 if [[ "$ACTION" = "prepare" ]]; then
   WINEPREFIX=$FULLWINEPREFIXPATH wine regedit /E $FULLWINEPREFIXPATH/drive_c/tmp-regedit-export.reg "HKEY_CURRENT_USER\Software\Wine\Debug"

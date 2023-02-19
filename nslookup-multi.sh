@@ -35,7 +35,7 @@ if [ -z "$1" ] || [ $# != 1 ]; then
   exit 1
 fi
 
-$SUBSCRIPT/check-for-software-existence.sh nslookup netstat dig
+$SUBSCRIPT/check-for-software-existence.sh nslookup netstat dig || exit 1
 
 $SUBSCRIPT/highlighted-output.sh "Check Google DNS"
 

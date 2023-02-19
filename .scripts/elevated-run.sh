@@ -10,7 +10,7 @@ SUBSCRIPT=$THISDIRPATH
 
 source $SUBSCRIPT/optain-password.sh
 
-$SUBSCRIPT/check-for-software-existence.sh sudo
+$SUBSCRIPT/check-for-software-existence.sh sudo || exit 1
 
 optain-password
 

@@ -17,7 +17,7 @@ FULLDOWNLOADFILEPATH=$DOWNLOADFOLDER/$DOWNLOADFILENAME
 
 ### Procedures ###
 
-$SUBSCRIPT/check-for-software-existence.sh wget
+$SUBSCRIPT/check-for-software-existence.sh wget || exit 1
 
 $SUBSCRIPT/highlighted-output.sh "The script will now download the file from URL '$DOWNLOADLINK' for wine prefix '$WINEPREFIXNAME'."
 

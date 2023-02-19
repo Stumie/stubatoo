@@ -14,7 +14,7 @@ source $SUBSCRIPT/optain-password.sh
 
 ### Procedures ###
 
-$SUBSCRIPT/check-for-software-existence.sh sudo systemctl kinit klist
+$SUBSCRIPT/check-for-software-existence.sh sudo systemctl kinit klist || exit 1
 
 optain-password
 

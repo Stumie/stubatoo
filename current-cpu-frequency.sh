@@ -23,7 +23,7 @@ current-cpu-frequency_columnized-output () {
 
 ### Procedures ###
 
-$SUBSCRIPT/check-for-software-existence.sh column watch
+$SUBSCRIPT/check-for-software-existence.sh column watch || exit 1
 
 export -f current-cpu-frequency_generate-output
 export -f current-cpu-frequency_columnized-output
