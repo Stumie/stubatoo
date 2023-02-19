@@ -21,7 +21,7 @@ wine-branch-validity-check () {
   if [ "$1" != "$WINESTABLEBRANCH" ] && [ "$1" != "$WINESTAGINGBRANCH" ] && [ "$1" != "$WINEDEVELBRANCH" ]; then
     printf '%s\n' "ERROR! Provide valid wine branch statement within script parameters!" >&2
     show-usage
-    exit 1
+    return 1
   fi
 }
 
@@ -35,8 +35,7 @@ wine-prefix-order-validity-check () {
   done
   if [[ "$wineprefixordervalid" = false ]]; then
     printf '%s\n' "ERROR! Provide valid wine-prefix-order within script parameters!" >&2
-    show-usage
-    exit 1
+    return 1
   fi
 }
 
@@ -55,10 +54,10 @@ REQUESTEDWINEPREFIXORDER=$2
 source $SUBSCRIPT/parameter-count-check.sh
 source $SUBSCRIPT/root-protection.sh
 
-root-protection
-parameter-count-check $# 2
-wine-branch-validity-check $1
-wine-prefix-order-validity-check $REQUESTEDWINEPREFIXORDER
+root-protection || { show-usage && exit 1; }
+parameter-count-check $# 2 || { show-usage && exit 1; }
+wine-branch-validity-check $1 || { show-usage && exit 1; }
+wine-prefix-order-validity-check $REQUESTEDWINEPREFIXORDER || { show-usage && exit 1; }
 
 $SUBSCRIPT/inst-reqs.sh wine $WINEBRANCHNAME || { printf '%s\n' "ERROR! Could not install requirements!" >&2 && exit 1; }
 

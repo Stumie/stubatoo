@@ -7,7 +7,6 @@ parameter-count-check () {
   correctparamentercount=$2
   if [[ "$countofgivenparameters" != "$correctparamentercount" ]]; then
     printf '%s\n' "ERROR! You provided $countofgivenparameters parameters to the script, but it should be $correctparamentercount!" >&2
-    show-usage
-    exit 1
+    return 1
   fi
 }
