@@ -8,11 +8,11 @@
 
 ask-for-password () {
   passwordpromptstring="Please type in password for $USER: "
-  if command -v kdialog &> /dev/null; then
-    password=$(kdialog --password "$passwordpromptstring")  # Prompts for KDE-specific askpass
-  elif command -v zenity &> /dev/null; then
-    password=$(zenity --password)  # Prompts for GTK-specific askpass
-  elif command -v ssh-askpass &> /dev/null; then
+  if command -v kdialog &> /dev/null && kdialog -h &> /dev/null; then
+    password=$(kdialog --password "$passwordpromptstring") # Prompts for KDE-specific askpass
+  elif command -v zenity &> /dev/null && zenity -h &> /dev/null; then
+    password=$(zenity --password) # Prompts for GTK-specific askpass
+  elif command -v ssh-askpass &> /dev/null && ssh-askpass -h &> /dev/null; then
     password=$(ssh-askpass) # Prompts for window environment agnostic, but still graphical ssh-askpass
   elif command -v /lib/cryptsetup/askpass &> /dev/null; then
     password=$(/lib/cryptsetup/askpass "$passwordpromptstring") # Prompts for password within terminal
