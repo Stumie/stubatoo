@@ -10,13 +10,13 @@ SUBSCRIPT=$THISDIRPATH/.scripts
 
 ### Function declarations ###
 
-source $SUBSCRIPT/optain-password.sh
+source $SUBSCRIPT/obtain-password.sh
 
 ### Procedures ###
 
 $SUBSCRIPT/check-for-software-existence.sh sudo systemctl kinit klist || exit 1
 
-optain-password
+obtain-password
 
 echo $password | sudo -S systemctl restart sssd > /dev/null 2>&1
 

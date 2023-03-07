@@ -8,11 +8,11 @@ SUBSCRIPT=$THISDIRPATH
 
 ### Procedures ###
 
-source $SUBSCRIPT/optain-password.sh
+source $SUBSCRIPT/obtain-password.sh
 
 $SUBSCRIPT/check-for-software-existence.sh sudo || exit 1
 
-optain-password
+obtain-password
 
 for j in "$*"; do
   echo $password | sudo -S $j

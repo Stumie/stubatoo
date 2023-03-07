@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Usage within script: 
-# source $SUBSCRIPT/optain-password.sh
-# optain password
+# source $SUBSCRIPT/obtain-password.sh
+# obtain password
 
 ### Function declarations ###
 
@@ -26,7 +26,7 @@ ask-for-password () {
   fi
 }
 
-optain-password () {
+obtain-password () {
   passwordiscorrect=false
   until [ $passwordiscorrect == true ]; do
     ask-for-password
