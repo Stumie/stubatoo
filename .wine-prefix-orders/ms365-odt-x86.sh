@@ -6,7 +6,7 @@
 
 WINEARCH="win32"
 
-EXEDOWNLOADLINK="https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_15928-20216.exe"
+EXEDOWNLOADLINK="https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_16026-20170.exe"
 
 WEBVIEWDOWNLOADLINK="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
 WEBVIEWSETUPFILENAME="microsoftedgewebview2setup.exe"
