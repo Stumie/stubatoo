@@ -24,6 +24,7 @@ mkdir -pm755 /etc/apt/keyrings
 cp -fv /usr/share/keyrings/winehq-archive.key /etc/apt/keyrings/winehq-archive.key
 
 apt-get update -y
+apt-get upgrade -y
 apt-get install --install-recommends winehq-$WINEBRANCHNAME -y
 apt-get install winetricks cabextract p11-kit p11-kit-modules winbind samba smbclient -y
 
