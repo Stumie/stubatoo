@@ -11,6 +11,8 @@ EXEDOWNLOADLINK="https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB
 WEBVIEWDOWNLOADLINK="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
 WEBVIEWSETUPFILENAME="microsoftedgewebview2setup.exe"
 
+ELSCOREATWINEDLLDOTCOM="https://wikidll.com/download/7449/elscore.zip"
+
 ### Variable declarations ###
 
 THISSCRIPTPATH=$(readlink -f $0)
@@ -32,9 +34,16 @@ WEBVIEWSETUPPATH=$DOWNLOADFOLDER/$WEBVIEWSETUPFILENAME
 
 source $SUBSCRIPT/wine-install-winetricks-verbs.sh
 
-$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $EXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download software!" >&2 && exit 1; }
-$SUBSCRIPT/wine-prefix-download-software-followlink.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $WEBVIEWDOWNLOADLINK $WEBVIEWSETUPFILENAME  || { printf '%s\n' "ERROR! Could not download software!" >&2 && exit 1; }
+# Download ODT
+$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $EXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
 
+# Download MS Edge WebView
+$SUBSCRIPT/wine-prefix-download-software-followlink.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $WEBVIEWDOWNLOADLINK $WEBVIEWSETUPFILENAME  || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+
+# Download elscore.dll
+$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $ELSCOREATWINEDLLDOTCOM || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+
+# Prepare first run of Wine prefix
 $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
 
 # Install the relevant set of wintricks
@@ -97,6 +106,12 @@ WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $FULLWINEPREFIXPATH/drive
 
 # Workaround: Symlink creation seems to be broken during installation, which is the reason, why DLLs have to be copied manually.
 cp -fv $FULLWINEPREFIXPATH/drive_c/Program\ Files/Common\ Files/Microsoft\ Shared/ClickToRun/*.dll $FULLWINEPREFIXPATH/drive_c/Program\ Files/Microsoft\ Office/root/Office16/
+cp -fv $FULLWINEPREFIXPATH/drive_c/Program\ Files/Common\ Files/Microsoft\ Shared/ClickToRun/*.dll $FULLWINEPREFIXPATH/drive_c/Program\ Files/Microsoft\ Office/root/Client/
+
+# Workaround: Add elscore.dll for some programms to start
+unzip -o $DOWNLOADFOLDER/$(basename $ELSCOREATWINEDLLDOTCOM) -d $DOWNLOADFOLDER
+cp -fv $DOWNLOADFOLDER/ELSCore.dll $FULLWINEPREFIXPATH/drive_c/Program\ Files/Microsoft\ Office/root/Office16/
+mv -fv $DOWNLOADFOLDER/ELSCore.dll $FULLWINEPREFIXPATH/drive_c/Program\ Files/Microsoft\ Office/root/Client/
 
 # Remove ODT folder to save disk space
 rm -rf $FULLWINEPREFIXPATH/drive_c/ODT
