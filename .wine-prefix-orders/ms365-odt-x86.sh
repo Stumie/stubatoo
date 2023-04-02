@@ -49,17 +49,10 @@ $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPRE
 # Install the relevant set of wintricks
 install-winetricks-verbs win7 riched20 msxml6 corefonts pptfonts
 
-# Add Wine registry keys for DLL overrides
-$SUBSCRIPT/wine-prefix-add-registry-keys.sh prepare $FULLWINEPREFIXPATH
-cat << EOF >> $FULLWINEPREFIXPATH/drive_c/tmp-regedit-import.reg
-[HKEY_CURRENT_USER\Software\Wine\Direct2D]
-"max_version_factory"=dword:0
-[HKEY_CURRENT_USER\Software\Wine\Direct3D]
-"MaxVersionGL"=dword:00030002
-[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
-"sppc"=""
-EOF
-$SUBSCRIPT/wine-prefix-add-registry-keys.sh import $FULLWINEPREFIXPATH
+# Add Wine registry keys for workarounds
+WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\Direct2D" /v "max_version_factory" /t REG_DWORD /d "0" /f
+WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\Direct3D" /v "MaxVersionGL" /t REG_DWORD /d "196610" /f  
+WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\DllOverrides" /v "sppc" /t REG_SZ /d "" /f
 
 # Make sure Wine prefix is set to Windows 7
 WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH winecfg -v win7
