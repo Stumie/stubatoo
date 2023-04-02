@@ -32,14 +32,9 @@ $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPRE
 # Install the relevant set of wintricks
 install-winetricks-verbs win7 corefonts
 
-# Add Wine registry keys for DLL overrides
-$SUBSCRIPT/wine-prefix-add-registry-keys.sh prepare $FULLWINEPREFIXPATH
-cat << EOF >> $FULLWINEPREFIXPATH/drive_c/tmp-regedit-import.reg
-[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
-"libglesv2"=""
-"riched20"="native,builtin"
-EOF
-$SUBSCRIPT/wine-prefix-add-registry-keys.sh import $FULLWINEPREFIXPATH
+# Add Wine registry keys for workarounds
+WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\DllOverrides" /v "libglesv2" /t REG_SZ /d "" /f
+WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\DllOverrides" /v "riched20" /t REG_SZ /d "native,builtin" /f
 
 # Update and reboot wine prefix
 WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
