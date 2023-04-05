@@ -73,9 +73,8 @@ WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $WEBVIEWSETUPPATH /silent
 mkdir -p $FULLWINEPREFIXPATH/drive_c/ODT
 cat << EOF > $FULLWINEPREFIXPATH/drive_c/ODT/installOfficeProPlus32.xml
 <Configuration>
-  <Add OfficeClientEdition="32" Version="MatchInstalled" Channel="Current">
+  <Add OfficeClientEdition="32" Version="16.0.12527.22286">
     <Product ID="O365ProPlusRetail">
-      <Language ID="MatchInstalled" />
       <Language ID="MatchOS" Fallback="en-us" />
     </Product>
   </Add>
