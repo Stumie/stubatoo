@@ -69,7 +69,8 @@ WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $WEBVIEWSETUPPATH /silent
 
 # Prepare configuration for Office Deployment Tool
 # Manual: https://learn.microsoft.com/en-us/deployoffice/office-deployment-tool-configuration-options
-# Version hints: https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/installation/product-ids-supported-office-deployment-click-to-run
+# Product ID hints: https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/installation/product-ids-supported-office-deployment-click-to-run
+# Version hints: https://learn.microsoft.com/en-us/officeupdates/update-history-office-win7
 mkdir -p $FULLWINEPREFIXPATH/drive_c/ODT
 cat << EOF > $FULLWINEPREFIXPATH/drive_c/ODT/installOfficeProPlus32.xml
 <Configuration>
