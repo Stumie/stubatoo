@@ -53,7 +53,10 @@ while [ true ] ; do
   if [ $? = 0 ] ; then
     break
   else
-    $SUBSCRIPT/highlighted-output.sh "INFORMATION! Abort the graphical Vectorworks Viewer installer, when it shows up, and then hit enter here." \
+    $SUBSCRIPT/highlighted-output.sh "INFORMATION!" \
+      "Let the firstly appearing graphical application unpack all files." \
+      "Abort the secondly appearing graphical Vectorworks Viewer installer, when it shows up, and then hit enter here within terminal." \
+      "Vectorworks Viewer 2022 will then install automatically." \
       "Install Mono and Gecko, if any windows ask for it."
   fi
 done
