@@ -20,7 +20,11 @@ wine-prepare () {
   $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
 }
 
-wine-set-winver-and-install-prerequisites () {
+wine-set-winver () {
+  # TO BE FILLED
+}
+
+wine-install-prerequisites () {
   # TO BE FILLED
 }
 
