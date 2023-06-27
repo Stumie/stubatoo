@@ -21,7 +21,9 @@ wine-prepare () {
 }
 
 wine-set-winver () {
-  # TO BE FILLED
+  winver=$1
+  source $SUBSCRIPT/wine-install-winetricks-verbs.sh
+  install-winetricks-verbs $winver
 }
 
 wine-install-prerequisites () {
