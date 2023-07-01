@@ -6,7 +6,7 @@
 
 WINEARCH="win32"
 
-EXEDOWNLOADLINK="https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_16501-20196.exe"
+ODTDOWNLOADPAGE="https://www.microsoft.com/en-us/download/confirmation.aspx"
 
 WEBVIEWDOWNLOADLINK="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
 WEBVIEWSETUPFILENAME="microsoftedgewebview2setup.exe"
@@ -25,7 +25,8 @@ FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
 
 DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
 
-SETUPFILENAME=$(basename $EXEDOWNLOADLINK)
+ODTEXEDOWNLOADLINK=$(curl -s $ODTDOWNLOADPAGE | grep -Po 'href="https://[^"]+\.(exe)"' | grep -Po 'https://[^"]+' | tail -1)
+SETUPFILENAME=$(basename $ODTEXEDOWNLOADLINK)
 SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
 WEBVIEWSETUPPATH=$DOWNLOADFOLDER/$WEBVIEWSETUPFILENAME
@@ -35,7 +36,7 @@ WEBVIEWSETUPPATH=$DOWNLOADFOLDER/$WEBVIEWSETUPFILENAME
 source $SUBSCRIPT/wine-install-winetricks-verbs.sh
 
 # Download ODT
-$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $EXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $ODTEXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
 
 # Download MS Edge WebView
 $SUBSCRIPT/wine-prefix-download-software-followlink.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $WEBVIEWDOWNLOADLINK $WEBVIEWSETUPFILENAME  || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
