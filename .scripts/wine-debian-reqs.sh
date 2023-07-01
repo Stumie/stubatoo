@@ -8,7 +8,7 @@
 dpkg --add-architecture i386
 apt-get update -y
 apt-get upgrade -y
-apt-get install gcc make perl wget dos2unix unzip p7zip-full zstd lsb-release software-properties-common -y
+apt-get install gcc make perl curl wget dos2unix unzip p7zip-full zstd lsb-release software-properties-common -y
 
 ### Variable declarations - Part 2 ###
 
