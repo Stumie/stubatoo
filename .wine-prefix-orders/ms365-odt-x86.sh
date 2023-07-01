@@ -6,7 +6,7 @@
 
 WINEARCH="win32"
 
-ODTDOWNLOADPAGE="https://www.microsoft.com/en-us/download/confirmation.aspx"
+ODTDOWNLOADPAGE="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117"
 
 WEBVIEWDOWNLOADLINK="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
 WEBVIEWSETUPFILENAME="microsoftedgewebview2setup.exe"
@@ -25,7 +25,7 @@ FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
 
 DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
 
-ODTEXEDOWNLOADLINK=$(curl -s $ODTDOWNLOADPAGE | grep -Po 'href="https://[^"]+\.(exe)"' | grep -Po 'https://[^"]+' | tail -1)
+ODTEXEDOWNLOADLINK="$(curl -s "$ODTDOWNLOADPAGE" | grep -Po 'href="https://[^"]+\.(exe)"' | grep -Po 'https://[^"]+' | tail -1)"
 SETUPFILENAME=$(basename $ODTEXEDOWNLOADLINK)
 SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
