@@ -35,7 +35,7 @@ wine-install-prerequisites corefonts
 wine-reg-add "HKCU\Software\Wine\DllOverrides" "libglesv2" "REG_SZ" ""
 wine-reg-add "HKCU\Software\Wine\DllOverrides" "riched20" "REG_SZ" "native,builtin"
 
-wine-update-and-reboot
+wine-reboot
 
 $SUBSCRIPT/highlighted-output.sh \
   "The script will now install '$SETUPFILENAME'. Follow the SketchUp installer's instructions." \

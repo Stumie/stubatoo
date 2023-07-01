@@ -23,7 +23,7 @@ wine-install-prerequisites () {
   install-winetricks-verbs $@
 }
 
-wine-update-and-reboot () {
+wine-reboot () {
   WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
   WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -r
 }
