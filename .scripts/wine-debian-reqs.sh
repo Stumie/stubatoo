@@ -18,8 +18,9 @@ WINEBRANCHNAME=$1
 
 ### Procedures - Part 2 ###
 
+rm /etc/apt/sources.list.d/winehq.sources /etc/apt/sources.list.d/winehq-*.sources
 wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-wget -nc -P /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$DISTRIRELEASE/dists/$DISTRIVERSION/winehq-$DISTRIVERSION.sources
+wget -nc -O /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/$DISTRIRELEASE/dists/$DISTRIVERSION/winehq-$DISTRIVERSION.sources
 mkdir -pm755 /etc/apt/keyrings
 cp -fv /usr/share/keyrings/winehq-archive.key /etc/apt/keyrings/winehq-archive.key
 
