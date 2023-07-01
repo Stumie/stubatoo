@@ -7,15 +7,13 @@
 WINEARCH="win64"
 EXEDOWNLOADLINK="https://archive.org/download/sketchup-make-2017-de-x64/SketchUpMake-de-x64.exe"
 
-### Variable declarations ###
+### Imports and variable declarations ###
 
 THISSCRIPTPATH=$(readlink -f $0)
 THISDIRPATH=$(dirname $THISSCRIPTPATH)
 SUBSCRIPT=$THISDIRPATH/../.scripts
 
-WINEPREFIXNAME=$(basename -s .sh $0)
-WINEPREFIXFOLDER=$1
-FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
+source $SUBSCRIPT/wine-install-abstraction-layer.sh
 
 DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
 SETUPFILENAME=$(basename $EXEDOWNLOADLINK)
@@ -23,28 +21,28 @@ SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
 ### Procedures ###
 
-source $SUBSCRIPT/wine-install-winetricks-verbs.sh
+wine-prepare
 
-$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $EXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+download $EXEDOWNLOADLINK
 
-$SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
+# Set Windows Version to Windows 7
+wine-set-winver win7
 
-# Install the relevant set of wintricks
-install-winetricks-verbs win7 corefonts
+# Install necessary prerequisites 
+wine-install-prerequisites corefonts
 
 # Add Wine registry keys for workarounds
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\DllOverrides" /v "libglesv2" /t REG_SZ /d "" /f
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\DllOverrides" /v "riched20" /t REG_SZ /d "native,builtin" /f
+wine-reg-add "HKCU\Software\Wine\DllOverrides" "libglesv2" "REG_SZ" ""
+wine-reg-add "HKCU\Software\Wine\DllOverrides" "riched20" "REG_SZ" "native,builtin"
 
-# Update and reboot wine prefix
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -r
+wine-update-and-reboot
 
 $SUBSCRIPT/highlighted-output.sh \
-  "The script will now install '$SETUPFILENAME'. Follow the installer's instructions, if necessary." \
+  "The script will now install '$SETUPFILENAME'. Follow the SketchUp installer's instructions." \
+  "Install Visual C++, when the SketchUp installer asks for it." \
   "Install Mono and Gecko, if any windows ask for it."
 
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $SETUPFILEPATH
+wine-execute $SETUPFILEPATH
 
 $SUBSCRIPT/highlighted-output.sh \
   "Installation finished." \
