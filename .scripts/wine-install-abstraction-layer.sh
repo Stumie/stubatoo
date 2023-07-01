@@ -2,19 +2,13 @@
 
 ### Variable declarations ###
 
-THISSCRIPTPATH=$(readlink -f $0)
-THISDIRPATH=$(dirname $THISSCRIPTPATH)
-SUBSCRIPT=$THISDIRPATH/../.scripts
-
 WINEPREFIXNAME=$(basename -s .sh $0)
 WINEPREFIXFOLDER=$1
 FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
 
-DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
-SETUPFILENAME=$(basename $EXEDOWNLOADLINK)
-SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
-
 ### Function declarations ###
+
+source $SUBSCRIPT/wine-install-winetricks-verbs.sh
 
 wine-prepare () {
   $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
@@ -22,12 +16,11 @@ wine-prepare () {
 
 wine-set-winver () {
   winver=$1
-  source $SUBSCRIPT/wine-install-winetricks-verbs.sh
   install-winetricks-verbs $winver
 }
 
 wine-install-prerequisites () {
-  # TO BE FILLED
+  install-winetricks-verbs $@
 }
 
 wine-update-and-reboot () {
