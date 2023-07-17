@@ -25,8 +25,11 @@ wine-prepare
 
 download $EXEDOWNLOADLINK
 
+# Set Windows Version to Windows 7
+wine-set-winver winxp
+
 # Install necessary prerequisites 
-wine-install-prerequisites winxp corefonts
+wine-install-prerequisites corefonts
 
 wine-reboot
 
