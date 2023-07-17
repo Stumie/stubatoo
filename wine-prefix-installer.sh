@@ -14,7 +14,7 @@ show-usage () {
   $SUBSCRIPT/highlighted-output.sh \
     "Usage: $0 $WINESTABLEBRANCH|$WINESTAGINGBRANCH|$WINEDEVELBRANCH wine-prefix-order" \ \
     "List of all available wine-prefix-orders:" \ \
-    "$(basename -s .sh -a $(ls -1 $WINEPREFIXORDERS/*))"
+    "$(basename -s .sh -a $(ls -1v $WINEPREFIXORDERS/*))"
 }
 
 wine-branch-validity-check () {
@@ -28,7 +28,7 @@ wine-branch-validity-check () {
 wine-prefix-order-validity-check () {
   wineprefixordertocheck=$1
   wineprefixordervalid=false
-  for i in $(basename -s .sh -a $(ls -1 $WINEPREFIXORDERS/*)); do
+  for i in $(basename -s .sh -a $(ls -1v $WINEPREFIXORDERS/*)); do
     if [[ "$i" = "$wineprefixordertocheck" ]]; then
       wineprefixordervalid=true
     fi
