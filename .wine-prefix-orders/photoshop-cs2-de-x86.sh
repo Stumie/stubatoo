@@ -13,9 +13,7 @@ THISSCRIPTPATH=$(readlink -f $0)
 THISDIRPATH=$(dirname $THISSCRIPTPATH)
 SUBSCRIPT=$THISDIRPATH/../.scripts
 
-WINEPREFIXNAME=$(basename -s .sh $0)
-WINEPREFIXFOLDER=$1
-FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
+source $SUBSCRIPT/wine-install-abstraction-layer.sh
 
 DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
 SETUPFILENAME=$(basename $EXEDOWNLOADLINK)
@@ -23,25 +21,21 @@ SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
 ### Procedures ###
 
-source $SUBSCRIPT/wine-install-winetricks-verbs.sh
+wine-prepare
 
-$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $EXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+download $EXEDOWNLOADLINK
 
-$SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
+# Install necessary prerequisites 
+wine-install-prerequisites winxp corefonts
 
-# Install the relevant set of wintricks
-install-winetricks-verbs winxp corefonts
-
-# Update and reboot wine prefix
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -r
+wine-reboot
 
 $SUBSCRIPT/highlighted-output.sh \
   "The script will now install '$SETUPFILENAME'. Follow the installer's instructions, if necessary." \
   "Install Mono and Gecko, if any windows ask for it." \
   "You might find the license here: https://archive.fo/255q5#selection-1663.0-1663.29"
 
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $SETUPFILEPATH
+wine-execute $SETUPFILEPATH
 
 $SUBSCRIPT/highlighted-output.sh \
   "Installation finished." \
