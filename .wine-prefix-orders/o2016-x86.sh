@@ -45,7 +45,7 @@ $SUBSCRIPT/wine-prefix-download-software-followlink.sh $WINEPREFIXFOLDER $WINEPR
 $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
 
 # Install the relevant set of wintricks
-install-winetricks-verbs win7 riched20 msxml6 corefonts pptfonts
+install-winetricks-verbs win7 riched20 msxml6 corefonts tahoma pptfonts
 
 # Add Wine registry keys for workarounds
 WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKCU\Software\Wine\Direct2D" /v "max_version_factory" /t REG_DWORD /d "0" /f
