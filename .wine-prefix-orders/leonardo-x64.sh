@@ -46,4 +46,5 @@ wine-execute $SETUPFILEPATH
 
 $SUBSCRIPT/highlighted-output.sh \
   "Installation finished." \
+  "You may ignore the error message 'Failed executing ShowWindowAsync() on init', when starting Leonardo." \
   "Install Mono and Gecko, if any windows ask for it."
