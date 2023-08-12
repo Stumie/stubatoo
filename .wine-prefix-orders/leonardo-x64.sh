@@ -14,9 +14,7 @@ THISSCRIPTPATH=$(readlink -f $0)
 THISDIRPATH=$(dirname $THISSCRIPTPATH)
 SUBSCRIPT=$THISDIRPATH/../.scripts
 
-WINEPREFIXNAME=$(basename -s .sh $0)
-WINEPREFIXFOLDER=$1
-FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
+source $SUBSCRIPT/wine-install-abstraction-layer.sh
 
 DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
 SETUPFILENAME=$(basename $EXEDOWNLOADLINK)
@@ -24,28 +22,27 @@ SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
 ### Procedures ###
 
-source $SUBSCRIPT/wine-install-winetricks-verbs.sh
+wine-prepare
 
-$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $EXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+download $EXEDOWNLOADLINK
 
-$SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
+# Set Windows Version to Windows 7
+wine-set-winver win10
 
-# Install the relevant set of wintricks
-install-winetricks-verbs win10 courier
+# Install necessary prerequisites 
+wine-install-prerequisites courier
 
 # Workaround: Since winetricks currently does not offer SegoeUi, we download it over fontsforyou.com and add it to the prefix.
 wget $SEGOEUITTFDOWNLOADLINK -O $FULLWINEPREFIXPATH/drive_c/windows/Fonts/segoeui.ttf
 WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "SegoeUi (TrueType)" /t REG_SZ /d segoeui.ttf /f
 
-# Update and reboot wine prefix
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -r
+wine-reboot
 
 $SUBSCRIPT/highlighted-output.sh \
   "The script will now install '$SETUPFILENAME'. Follow the installer's instructions, if necessary." \
   "Install Mono and Gecko, if any windows ask for it."
 
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $SETUPFILEPATH
+wine-execute $SETUPFILEPATH
 
 $SUBSCRIPT/highlighted-output.sh \
   "Installation finished." \
