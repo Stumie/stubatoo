@@ -16,12 +16,15 @@ SOFTWARENAMEBRANCH=$2
 $SUBSCRIPT/highlighted-output.sh "The script will now update packages and install prerequisites."
 
 if [ -f "/etc/debian_version" ]; then
-  if [[ "$(uname -v)" =~ .*"Debian".* ]]; then
+  if [[ "$(uname -v)" =~ .*"Debian".* || "$(lsb_release -is)" == "Debian" ]]; then
     printf '%s\n' "Debian Linux detected."
     $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH""
   elif [[ "$(uname -v)" =~ .*"Ubuntu".* ]]; then
     printf '%s\n' "Ubuntu Linux detected. Trying Debian requirements, what should work for Ubuntu as well."
     $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH""
+  else
+    printf '%s\n' "Debian-derivate detected, but cannot decide which path to choose. Exit for safety reasons."
+    exit 1
   fi
 else 
   printf '%s\n' "ERROR! Currently there's no suitable routine to install requirements on your system." >&2
