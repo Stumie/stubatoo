@@ -13,9 +13,7 @@ THISSCRIPTPATH=$(readlink -f $0)
 THISDIRPATH=$(dirname $THISSCRIPTPATH)
 SUBSCRIPT=$THISDIRPATH/../.scripts
 
-WINEPREFIXNAME=$(basename -s .sh $0)
-WINEPREFIXFOLDER=$1
-FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
+source $SUBSCRIPT/wine-install-abstraction-layer.sh
 
 DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
 SETUPFILENAME=$(basename $EXEDOWNLOADLINK)
@@ -23,19 +21,19 @@ SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
 ### Procedures ###
 
-source $SUBSCRIPT/wine-install-winetricks-verbs.sh
+wine-prepare
 
-$SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $EXEDOWNLOADLINK || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+download $EXEDOWNLOADLINK
 
-$SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
+# Set Windows Version to Windows 7
+wine-set-winver win10
 
-# Install the relevant set of wintricks
-install-winetricks-verbs win10 corefonts
+# Install necessary prerequisites 
+wine-install-prerequisites corefonts
 
-# Update and reboot wine prefix
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -r
+wine-reboot
 
+# Workaround: Since the setup file extracts everything into the folder, where it's executed, the setup file is copied into the prefix and started from there.
 SETUPFILEFOLDER=$FULLWINEPREFIXPATH/drive_c/vectorworks2022viewerinstaller
 mkdir -p $SETUPFILEFOLDER
 cp -fv $SETUPFILEPATH $SETUPFILEFOLDER/
@@ -45,7 +43,7 @@ $SUBSCRIPT/highlighted-output.sh \
   "The script will now start '$SETUPFILENAME'." \
   "Install Mono and Gecko, if any windows ask for it."
 
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $SETUPFILEFOLDER/$SETUPFILENAME
+wine-execute $SETUPFILEFOLDER/$SETUPFILENAME
 
 # Let script wait until user interacts (until installation aborted.)
 while [ true ] ; do
@@ -61,7 +59,7 @@ while [ true ] ; do
   fi
 done
 
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine $SETUPFILEFOLDER/Vectorworks-Viewer-2022/resources/installer/Install\ Vectorworks2022.exe --unattendedmodeui minimal --mode unattended
+wine-execute $SETUPFILEFOLDER/Vectorworks-Viewer-2022/resources/installer/Install\ Vectorworks2022.exe --unattendedmodeui minimal --mode unattended
 
 $SUBSCRIPT/highlighted-output.sh \
   "Installation finished." \
