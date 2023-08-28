@@ -72,6 +72,7 @@ cat << EOF > $FULLWINEPREFIXPATH/drive_c/ODT/installOfficeProPlus32.xml
   <Add OfficeClientEdition="32" Version="16.0.12527.22286">
     <Product ID="O365ProPlusRetail">
       <Language ID="MatchOS" Fallback="en-us" />
+      <ExcludeApp ID="Outlook" />
       <ExcludeApp ID="OneNote" />
       <ExcludeApp ID="OneDrive" />
       <ExcludeApp ID="Groove" />
