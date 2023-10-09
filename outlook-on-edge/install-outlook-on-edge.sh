@@ -19,8 +19,8 @@ THISDIRPATH=$(dirname $THISSCRIPTPATH)
 TARGETHOMEDIRECTORY=$(eval echo ~$LOGNAME)
 
 mkdir -vp "$TARGETHOMEDIRECTORY/.local/share/applications/" && \
-mkdir -vp "$TARGETHOMEDIRECTORY/.local/share/icons/" && \
-cp -vf "$THISDIRPATH/icons/microsoft-outlook.ico" "$TARGETHOMEDIRECTORY/.local/share/icons/" && \
+mkdir -vp "$TARGETHOMEDIRECTORY/.icons/" && \
+cp -vf "$THISDIRPATH/icons/microsoft-outlook.ico" "$TARGETHOMEDIRECTORY/.icons/" && \
 
 cat << EOF > $TARGETHOMEDIRECTORY/.local/share/applications/microsoft-outlook-web.desktop
 #!/usr/bin/env xdg-open
@@ -30,7 +30,7 @@ Name=Microsoft Outlook (Web)
 Name[de]=Microsoft Outlook (Web)
 GenericName=Groupware Suite
 GenericName[de]=Groupware-Suite
-Icon=$TARGETHOMEDIRECTORY/.local/share/icons/microsoft-outlook.ico
+Icon=$TARGETHOMEDIRECTORY/.icons/microsoft-outlook.ico
 Keywords=email;calendar;contact;addressbook;task;
 Keywords[de]=Mail;E-Mail;Nachricht;Kalender;Kontakt;Adressbuch;Aufgabe;
 StartupNotify=true
