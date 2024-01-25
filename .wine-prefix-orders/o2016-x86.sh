@@ -16,16 +16,16 @@ THISDIRPATH=$(dirname $THISSCRIPTPATH)
 SUBSCRIPT=$THISDIRPATH/../.scripts
 
 source $SUBSCRIPT/wine-install-abstraction-layer.sh
-
-DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
-WEBVIEWSETUPPATH=$DOWNLOADFOLDER/$WEBVIEWSETUPFILENAME
+source $SUBSCRIPT/obtain-filepath.sh
 
 ### Procedures ###
 
-source $SUBSCRIPT/obtain-filepath.sh
-
 $SUBSCRIPT/highlighted-output.sh \
-  "The script will now ask for the 32 bit setup file path of Microsoft Office 2016."
+  "The script will now ask for the 32 bit setup file path of Microsoft Office 2016." \
+  "Warning! There're issues with Click-to-Run (C2R) installers of Office, which might just fail during installation."
+
+read -n 1 -s -r -p "Press any key to continue, or Ctrl+C to abort"
+printf '\n'
 
 O2016SETUPFILEPATH=$(ask-for-filepath)
 
@@ -36,30 +36,15 @@ fi
 
 wine-prepare
 
-# Download MS Edge WebView
-download-followlink $WEBVIEWDOWNLOADLINK $WEBVIEWSETUPFILENAME
-
-# Set Windows Version to Windows 7
+# Set Windows Version
 wine-set-winver win7
 
 # Install necessary prerequisites 
-wine-install-prerequisites riched20 msxml6 corefonts tahoma pptfonts
+wine-install-prerequisites msxml6 riched20 corefonts tahoma pptfonts
 
 # Add Wine registry keys for workarounds
 wine-reg-add "HKCU\Software\Wine\Direct2D" "max_version_factory" "REG_DWORD" "0"
 wine-reg-add "HKCU\Software\Wine\Direct3D" "MaxVersionGL" "REG_DWORD" "196610"
-wine-reg-add "HKCU\Software\Wine\DllOverrides" "sppc" "REG_SZ" ""
-
-# Make sure Wine prefix is set to Windows 7
-wine-set-winver win7
-
-wine-reboot
-
-# Install Microsoft Edge WebView2 Runtime
-$SUBSCRIPT/highlighted-output.sh \
-  "The script will now install Microsoft Edge WebView2 Runtime in the background." \
-  "Install Mono and Gecko, if any windows ask for it."
-wine-execute $WEBVIEWSETUPPATH /silent /install
 
 wine-reboot
 
