@@ -12,13 +12,13 @@ WINEPREFIXFOLDER="$HOME/.wine-prefix"
 # Declare function to show usage of this script
 show-usage () {
   $SUBSCRIPT/highlighted-output.sh \
-    "Usage: $0 $WINESTABLEBRANCH|$WINESTAGINGBRANCH|$WINEDEVELBRANCH wine-prefix-order" \ \
+    "Usage: $0 $WINESTABLEBRANCH|$WINESTAGINGBRANCH|$WINEDEVELBRANCH|bottles wine-prefix-order" \ \
     "List of all available wine-prefix-orders:" \ \
     "$(basename -s .sh -a $(ls -1v $WINEPREFIXORDERS/*))"
 }
 
 wine-branch-validity-check () {
-  if [ "$1" != "$WINESTABLEBRANCH" ] && [ "$1" != "$WINESTAGINGBRANCH" ] && [ "$1" != "$WINEDEVELBRANCH" ]; then
+  if [ "$1" != "$WINESTABLEBRANCH" ] && [ "$1" != "$WINESTAGINGBRANCH" ] && [ "$1" != "$WINEDEVELBRANCH" ] && [ "$1" != "bottles" ]; then
     printf '%s\n' "ERROR! Provide valid wine branch statement within script parameters!" >&2
     show-usage
     return 1
@@ -61,4 +61,8 @@ wine-prefix-order-validity-check $REQUESTEDWINEPREFIXORDER || { show-usage && ex
 
 $SUBSCRIPT/inst-reqs.sh wine $WINEBRANCHNAME || { printf '%s\n' "ERROR! Could not install requirements!" >&2 && exit 1; }
 
-$WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEPREFIXFOLDER
+if [ "$WINEBRANCHNAME" = "bottles" ]; then
+  WINEPREFIXFOLDER="$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)" # Overwrite WINEPREFIXFOLDER constant when bottles shall be used
+fi
+
+$WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEBRANCHNAME $WINEPREFIXFOLDER

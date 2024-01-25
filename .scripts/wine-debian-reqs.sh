@@ -8,7 +8,7 @@
 dpkg --add-architecture i386
 apt-get update -y
 apt-get upgrade -y
-apt-get install gcc make perl curl wget dos2unix unzip p7zip-full zstd lsb-release software-properties-common -y
+apt-get install gcc make perl curl wget dos2unix unzip p7zip-full zstd lsb-release fzf coreutils grep software-properties-common -y
 
 ### Variable declarations - Part 2 ###
 
@@ -18,15 +18,31 @@ WINEBRANCHNAME=$1
 
 ### Procedures - Part 2 ###
 
-rm /etc/apt/sources.list.d/winehq.sources /etc/apt/sources.list.d/winehq-*.sources
-wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-wget -nc -O /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/$DISTRIRELEASE/dists/$DISTRIVERSION/winehq-$DISTRIVERSION.sources
-mkdir -pm755 /etc/apt/keyrings
-cp -fv /usr/share/keyrings/winehq-archive.key /etc/apt/keyrings/winehq-archive.key
+if [ "$WINEBRANCHNAME" != "bottles" ]; then
 
-apt-get update -y
-apt-get upgrade -y
-apt-get install --install-recommends winehq-$WINEBRANCHNAME -y
-apt-get install winetricks cabextract p11-kit p11-kit-modules winbind samba smbclient -y
+  rm /etc/apt/sources.list.d/winehq.sources /etc/apt/sources.list.d/winehq-*.sources
+  wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+  wget -nc -O /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/$DISTRIRELEASE/dists/$DISTRIVERSION/winehq-$DISTRIVERSION.sources
+  mkdir -pm755 /etc/apt/keyrings
+  cp -fv /usr/share/keyrings/winehq-archive.key /etc/apt/keyrings/winehq-archive.key
+
+  apt-get update -y
+  apt-get upgrade -y
+  apt-get install --install-recommends winehq-$WINEBRANCHNAME -y
+  apt-get install winetricks cabextract p11-kit p11-kit-modules winbind samba smbclient -y
+
+else
+
+  sudo apt-get update
+  sudo apt-get upgrade -y
+  sudo apt install flatpak winetricks coreutils grep fzf -y
+  sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  sudo flatpak update -y
+  sudo flatpak install flathub com.usebottles.bottles
+
+  # Allow flatpak access to home directory for Bottles
+  flatpak override --user --filesystem=$HOME com.usebottles.bottles
+
+fi
 
 winetricks --unattended --self-update
