@@ -15,7 +15,8 @@ wine-prepare () {
   if [ "$WINEBRANCHNAME" != "bottles" ]; then
     $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
   else
-    if [[ -d "$WINEPREFIXPATH" ]]; then
+    WINEPREFIXFOLDER="$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)" # Overwrite WINEPREFIXFOLDER constant when bottles shall be used
+    if [[ -d "$WINEPREFIXFOLDER" ]]; then
       echo "ERROR! The bottle \"$WINEPREFIXNAME\" allready exists. Delete bottle via Bottles first!"
       exit 1
     fi

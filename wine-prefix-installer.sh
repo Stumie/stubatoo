@@ -61,8 +61,4 @@ wine-prefix-order-validity-check $REQUESTEDWINEPREFIXORDER || { show-usage && ex
 
 $SUBSCRIPT/inst-reqs.sh wine $WINEBRANCHNAME || { printf '%s\n' "ERROR! Could not install requirements!" >&2 && exit 1; }
 
-if [ "$WINEBRANCHNAME" = "bottles" ]; then
-  WINEPREFIXFOLDER="$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)" # Overwrite WINEPREFIXFOLDER constant when bottles shall be used
-fi
-
 $WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEBRANCHNAME $WINEPREFIXFOLDER
