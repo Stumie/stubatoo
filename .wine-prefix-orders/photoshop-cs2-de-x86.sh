@@ -21,9 +21,9 @@ SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
 ### Procedures ###
 
-wine-prepare
-
 download $EXEDOWNLOADLINK
+
+wine-prepare
 
 # Set Windows Version to Windows 7
 wine-set-winver winxp

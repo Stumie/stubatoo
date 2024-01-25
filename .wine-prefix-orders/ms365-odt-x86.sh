@@ -29,8 +29,6 @@ WEBVIEWSETUPPATH=$DOWNLOADFOLDER/$WEBVIEWSETUPFILENAME
 
 ### Procedures ###
 
-wine-prepare
-
 # Download ODT
 download $ODTEXEDOWNLOADLINK
 
@@ -39,6 +37,8 @@ download-followlink $WEBVIEWDOWNLOADLINK $WEBVIEWSETUPFILENAME
 
 # Download elscore.dll
 download $ELSCOREATWINEDLLDOTCOM
+
+wine-prepare
 
 # Set Windows Version to Windows 7
 wine-set-winver win7
