@@ -23,9 +23,7 @@ source $SUBSCRIPT/obtain-filepath.sh
 $SUBSCRIPT/highlighted-output.sh \
   "The script will now ask for the 32 bit setup file path of Microsoft Office 2016." \
   "Warning! There're issues with Click-to-Run (C2R) installers of Office, which might just fail during installation."
-
-read -n 1 -s -r -p "Press any key to continue, or Ctrl+C to abort"
-printf '\n'
+$SUBSCRIPT/press-any-key-helper.sh
 
 O2016SETUPFILEPATH=$(ask-for-filepath)
 
