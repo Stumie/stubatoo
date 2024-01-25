@@ -5,7 +5,7 @@
 ### Constant declarations ###
 
 WINEARCH="win64"
-EXEDOWNLOADLINK="https://s3-eu-west-1.amazonaws.com/leonardo-installers/leonardo.0.17.66.winstall.exe"
+EXEDOWNLOADLINK="https://s3-eu-west-1.amazonaws.com/leonardo-installers/leonardo.0.17.70.winstall.exe"
 SEGOEUITTFDOWNLOADLINK="https://fontsfree.net//wp-content/fonts/basic/sans-serif/FontsFree-Net-Segoe-UI.ttf"
 
 ### Variable declarations ###
