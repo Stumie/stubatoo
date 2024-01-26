@@ -30,12 +30,11 @@ This is the probably biggest and most complex script in my toolbox. The script's
 It all started with my efforts in bringing O365 to Linux: Therefore, this script's ancestor is my other GitHub repo [Stumie/wine-prefix_O365](https://github.com/Stumie/wine-prefix_O365), which now is in 'Public archive' state.
 #### Known flaws
 Before use, be aware of some known flaws:
-* The script does have minor error handling. It shouldn't break your system, but still, be cautious and check console output carefully!
+* The script does have minor error handling. It shouldn't break your system, but still, be cautious and check console output carefully! _(...although wine tends to be very verbose...)_
 * The script currently only has dependency installation routines for Debian-based distributions, mainly because of included apt-get commands and apt source installations.
-* The script currently automatically installs the most current WineHQ release of the chosen release branch _(except for the 'bottles' variant)_, directly from the WineHQ repositories. Although I'm able to test some releases, I cannot guarantee for functionality of all or even future versions.
-* The script, and especially its wine-prefix-orders, include some hardcoded URLs or other clauses, which might get outdated or break in the future. No guarantee for function here.
-* ...and probably many more...
-#### Chapter n+1
-_to be extended_
+* The script currently automatically installs the most current [WineHQ](https://www.winehq.org/) release of the chosen release branch _(except for the `bottles` variant)_, directly from the WineHQ repositories. Although I'm able to test some releases, I cannot guarantee for functionality of all or even future versions.
+* The script, and especially its `wine-prefix-orders`, include some hardcoded URLs or other clauses, which might get outdated or break in the future. No guarantee for function here.
+* If you choose `bottles` as your installation target, in the current state Mono and Gecko are not installed by default: That means, that some `wine-prefix-orders`, that do work with the WineHQ variant, might not work with Bottles as installation target _(at least not out of the box)_.
+* ...and probably many more flaws...
 ### wine-prefix-remover.sh
 With this handy little script you can remove wine prefixes and bottles comfortable, that you formerly created with the help of `wine-prefix-installer.sh`.
