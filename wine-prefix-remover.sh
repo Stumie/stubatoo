@@ -42,6 +42,7 @@ if [ "$INSTALLATIONVARIANT" = "bottles" ]; then
     rm -vrf "$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)/$bottle"
   else
     echo "ERROR! No bottle chosen. Did nothing."
+    exit 1
   fi
 fi
 
@@ -57,5 +58,8 @@ if [ "$INSTALLATIONVARIANT" = "winehq" ]; then
     WINEPREFIX=$WINEPREFIXFOLDER/$wineprefix winetricks --unattended --force annihilate
   else
     echo "ERROR! No wine prefix chosen. Did nothing."
+    exit 1
   fi
 fi
+
+exit 0
