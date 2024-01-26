@@ -14,6 +14,8 @@ SUBSCRIPT=$THISDIRPATH/../.scripts
 
 source $SUBSCRIPT/wine-install-abstraction-layer.sh
 
+DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
+
 ### Procedures ###
 
 # Outcomment the lines below to start using the template 
