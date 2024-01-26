@@ -25,7 +25,7 @@ download $EXEDOWNLOADLINK
 
 wine-prepare
 
-# Set Windows Version to Windows 7
+# Set Windows Version
 wine-set-winver winxp
 
 # Install necessary prerequisites 
