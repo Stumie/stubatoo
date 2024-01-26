@@ -37,3 +37,5 @@ Before use, be aware of some known flaws:
 * ...and probably many more...
 #### Chapter n+1
 _to be extended_
+### wine-prefix-remover.sh
+With this handy little script you can remove wine prefixes and bottles comfortable, that you formerly created with the help of `wine-prefix-installer.sh`.
