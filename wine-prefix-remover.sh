@@ -27,10 +27,10 @@ source $SUBSCRIPT/root-protection.sh
 
 root-protection || { show-usage && exit 1; }
 parameter-count-check $# 1 || { show-usage && exit 1; }
-$SUBSCRIPT/check-for-software-existence.sh fzf
+$SUBSCRIPT/check-for-software-existence.sh fzf || exit 1
 
 if [ "$INSTALLATIONVARIANT" = "bottles" ]; then
-  $SUBSCRIPT/check-for-software-existence.sh flatpak
+  $SUBSCRIPT/check-for-software-existence.sh flatpak || exit 1
   bottle=$(ls -1v $(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path) \
     | fzf --phony --no-multi --layout=reverse --header="Which bottle do you want to remove cleanly?" \
     | xargs printf "%q\n")
@@ -47,7 +47,7 @@ if [ "$INSTALLATIONVARIANT" = "bottles" ]; then
 fi
 
 if [ "$INSTALLATIONVARIANT" = "winehq" ]; then
-  $SUBSCRIPT/check-for-software-existence.sh winetricks
+  $SUBSCRIPT/check-for-software-existence.sh winetricks || exit 1
   wineprefix=$(ls -1v $WINEPREFIXFOLDER | grep -v 'tmp-downloads' \
     | fzf --phony --no-multi --layout=reverse --header="Which bottle do you want to remove cleanly?" \
     | xargs printf "%q\n")
