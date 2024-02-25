@@ -36,5 +36,19 @@ Before use, be aware of some known flaws:
 * The script, and especially its `wine-prefix-orders`, include some hardcoded URLs or other clauses, which might get outdated or break in the future. No guarantee for function here.
 * If you choose `bottles` as your installation target, in the current state Mono and Gecko are not installed by default: That means, that some `wine-prefix-orders`, that do work with the WineHQ variant, might not work with Bottles as installation target _(at least not out of the box)_.
 * ...and probably many more flaws...
+#### Try Distrobox, e. g. if the script does not work on your system (e. g. most non-Debian systems)
+If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not work for you on a regular basis, you might want to still try the script with the help of [distrobox](https://github.com/89luca89/distrobox).
+1. Install distrobox on your system: https://github.com/89luca89/distrobox?tab=readme-ov-file#installation
+2. Create and enter a Debian-based distrobox container, e. g. like this _(here, in this __example__, to install the wine-prefix-order 'sketchupmake2017de-x64')_:  
+`wineprefixinstallerappname="sketchupmake2017de-x64"; distrobox-create --yes --name ${wineprefixinstallerappname} --image quay.io/toolbx-images/debian-toolbox:12; distrobox-enter --no-workdir --name ${wineprefixinstallerappname};`
+3. After you entered the newly created, Debian-based distrobox container, you need to add the `contrib` repository to the APT sources, e. g. like this:  
+`sudo sed -i 's/Components: main/Components: main contrib/g' /etc/apt/sources.list.d/debian.sources`
+4. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into the distrobox container with a single line:  
+`cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh stable sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
+5. When the script and the 'SketchUp Make 2017' _(or your respective application to be installed)_ installer finished, you could try to start the application from the distrobox container's shell, e. g. like this:  
+`WINEPREFIX=$HOME/.wine-prefix/sketchupmake2017de-x64 wine $HOME/.wine-prefix/sketchupmake2017de-x64/drive_c/Program\ Files/SketchUp/SketchUp\ 2017/SketchUp.exe`
+6. Normally, you could even export a launcher to the host-system from the distrobox container via `distrobox-export`, e. g. like this:  
+`distrobox-export --app SketchUp.desktop`  
+Unfortunately, this seems to be broken for the wine-prefix-order 'sketchupmake2017de-x64' (2024-02-25), because the application path contains a whitespace, which is handled incorrectly...
 ### wine-prefix-remover.sh
 With this handy little script you can remove wine prefixes and bottles comfortable, that you formerly created with the help of `wine-prefix-installer.sh`.
