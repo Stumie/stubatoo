@@ -2,7 +2,7 @@
 This repository is a toolbox of Bash scripts, that often rely on each other.\
 Its use case is to suit my own needs best. But since most of my needs are probably also someone else's needs, I decided to share my toolbox via GitHub under GPL-3.0 license.
 > [!WARNING]
-> 1. The scripts were only manually tested and only on Debian stable- and unstable-based distributions. So, you might encounter unknown issues with other distributions or even other Debian release versions.
+> 1. The scripts are only tested manually and only on my personal systems, which normally have a Debian stable- or Debian unstable-based Linux distribution installed. So, you might encounter unknown issues with other distributions or even other Debian release versions.
 > 2. I'm not a real programmer myself, so be cautious, that my scripts might not follow otherwise vastly established programming principles.
 ## Scripts
 ### current-cpu-frequency.sh
@@ -23,11 +23,11 @@ based on [qistoph/awk_netstat.sh](https://gist.github.com/qistoph/1b0708c888f078
 Little helper script to find out, if a DNS change already synchronized to some of the major DNS service providers.
 ### pull-all-git-repos-in-workspace.sh
 I usually clone my git repos to `$HOME\workspace`. 
-This little helper script pullsall repos in that workspace directory.
+This little helper script pulls all repos in that workspace directory.
 ### wine-prefix-installer.sh
 #### Introduction
-This is the probably biggest and most complex script in my toolbox. The script's goal is to help installing Windows software under Linux via Wine, like e. g. also [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/) or [Bottles](https://usebottles.com/)_(..., which can be also chosen as installation target in my script...)_ do. Main differences of this script are the higher focus on automation and the absence of a GUI _(and of course, that my script is much simpler since it's only an one-person-hobby-project)_.\
-It all started with my efforts in bringing O365 to Linux: Therefore, the `wine-prefix-installer.sh` script's ancestor is my other GitHub repo [Stumie/wine-prefix_O365](https://github.com/Stumie/wine-prefix_O365), which already is in 'Public archive' state.
+This is the probably biggest and most complex script in my toolbox. The script's goal is to help installing Windows software under Linux via Wine, like e. g. also [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/) or [Bottles](https://usebottles.com/) _(..., which can be also chosen as installation target in my script...)_ do. Main differences of this script are the higher focus on automation and the absence of a GUI _(and of course, that my script is much simpler since it's only an one-person-hobby-project)_.\
+It all started with my efforts in bringing O365 to Linux: Therefore, the `wine-prefix-installer.sh` script's ancestor is my other GitHub repo [Stumie/wine-prefix_O365](https://github.com/Stumie/wine-prefix_O365), which still exists, but is not publicly available anymore.
 #### Known flaws
 Before use, be aware of some known flaws:
 * The script does have minor error handling. It shouldn't break your system, but still, be cautious and check console output carefully! _(...although wine tends to be very verbose...)_
