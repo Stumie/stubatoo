@@ -32,8 +32,8 @@ It all started with my efforts in bringing O365 to Linux: Therefore, the `wine-p
 Before use, be aware of some known flaws:
 * The script does have minor error handling. It shouldn't break your system, but still, be cautious and check console output carefully! _(...although wine tends to be very verbose...)_
 * The script currently only has dependency installation routines for Debian-based distributions, mainly because of included apt-get commands and apt source installations.
-* The script currently automatically installs the most current [WineHQ](https://www.winehq.org/) release of the chosen release branch _(except for the `bottles` variant)_, directly from the WineHQ repositories. Although I'm able to test some releases, I cannot guarantee for functionality of all or even future versions.
-* The script, and especially its `wine-prefix-orders`, include some hardcoded URLs or other clauses, which might get outdated or break in the future. No guarantee for function here.
+* The script currently automatically installs the most current [WineHQ](https://www.winehq.org/) release of the chosen release branch _(except for the `bottles` variant)_, directly from the WineHQ repositories. Although I'm able to test some releases, I cannot guarantee functionality.
+* The script, and especially its `wine-prefix-orders`, include some hardcoded URLs or other clauses, which might get outdated or break in the future. Also here: No guarantee for functionality.
 * If you choose `bottles` as your installation target, in the current state Mono and Gecko are not installed by default: That means, that some `wine-prefix-orders`, that do work with the WineHQ variant, might not work with Bottles as installation target _(at least not out of the box)_.
 * ...and probably many more flaws...
 #### Try Distrobox, e. g. if the script does not work on your system (e. g. most non-Debian systems)
