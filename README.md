@@ -9,6 +9,14 @@ Its use case is to suit my own needs best. But since most of my needs are probab
 Little helper script to show live CPU frequencies over all cores, without installing any bigger tool for that use case.
 ### get-new-kerberos-ticket.sh
 When I sometimes need a new kerberos token, where I almost always forget a step. This little helper stands by.
+### install-onenote-on-edge.sh
+Creates a nice `*.desktop` file for Microsoft OneNote Web.
+
+> [!WARNING]
+> Needs Microsoft Edge installed and openable via `microsoft-edge`. _(So e. g. probably not working with MS Edge installed via Flatpak.)_
+
+> [!TIP]
+> `install-onenote-on-edge.sh` is not relying on other sub-scripts and therefore could be easily forked or used independently.
 ### install-outlook-on-edge.sh
 Creates a nice `*.desktop` file for Microsoft Outlook Web.
 
