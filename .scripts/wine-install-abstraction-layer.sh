@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+### Constant declarations ###
+
+WINESTABLEBRANCH="stable"
+WINESTAGINGBRANCH="staging"
+WINEDEVELBRANCH="devel"
+
 ### Variable declarations ###
 
 WINEPREFIXNAME=$(basename -s .sh $0)
@@ -11,12 +17,18 @@ FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
 
 source $SUBSCRIPT/wine-install-winetricks-verbs.sh
 
-wine-prepare () {
-  if [ "$WINEBRANCHNAME" != "bottles" ]; then
-    $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
+is-it-winehq () {
+  if [ "$1" != "$WINESTABLEBRANCH" ] && [ "$1" != "$WINESTAGINGBRANCH" ] && [ "$1" != "$WINEDEVELBRANCH" ] ]; then
+    echo "false"
   else
-    WINEPREFIXFOLDER="$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)" # Overwrite WINEPREFIXFOLDER constant when bottles shall be used
-    FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME # Overwrite FULLWINEPREFIXPATH since WINEPREFIXFOLDER changed
+    echo "true"
+  fi
+}
+
+wine-prepare () {
+  if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
+    WINEPREFIXFOLDER="$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)" # Hack: Overwrite WINEPREFIXFOLDER constant when bottles shall be used
+    FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME # Hack: Overwrite FULLWINEPREFIXPATH since WINEPREFIXFOLDER changed
     if [[ -d "$FULLWINEPREFIXPATH" ]]; then
       echo "ERROR! The bottle \"$WINEPREFIXNAME\" allready exists. Delete bottle via Bottles first!"
       exit 1
@@ -31,41 +43,53 @@ wine-prepare () {
     WINEBINARIESPATH="$(realpath $WINEPREFIXFOLDER/../runners/$RUNNER/bin)"
     flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name $WINEPREFIXNAME --arch $WINEARCH --runner $RUNNER --environment custom
   fi
+
+  if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
+    $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME || { printf '%s\n' "ERROR! Could not prepare wine prefix!" >&2 && exit 1; }
+  fi
 }
 
 wine-set-winver () {
   winver="$1"
-  if [ "$WINEBRANCHNAME" != "bottles" ]; then
-    install-winetricks-verbs "$winver"
-  else
+  if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
     # flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # Commented out since it often freezes but generally is a better way
     flatpak run --command=bottles-cli com.usebottles.bottles shell --bottle $WINEPREFIXNAME --input "winecfg -v $winver"
+  fi
+
+  if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
+    install-winetricks-verbs "$winver"
   fi
 }
 
 wine-install-prerequisites () {
-  if [ "$WINEBRANCHNAME" != "bottles" ]; then
-    install-winetricks-verbs "$@"  
-  else
+  if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
     WINE=$WINEBINARIESPATH/wine WINESERVER=$WINEBINARIESPATH/wineserver WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH winetricks --unattended "$@" # Install dependencies via winetricks since bottles-cli does not offer an interface for it (2024-01-23)
+  fi
+
+  if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
+    install-winetricks-verbs "$@"  
   fi
 }
 
 wine-reboot () {
-  if [ "$WINEBRANCHNAME" != "bottles" ]; then
-    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
-    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -r
-  else
+  if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
     WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH $WINEBINARIESPATH/wineboot -u
     WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH $WINEBINARIESPATH/wineboot -r
+  fi
+
+  if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
+    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
+    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -r
   fi
 }
 
 wine-execute () {
-  if [ "$WINEBRANCHNAME" != "bottles" ]; then
-    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine "$@"
-  else
+  if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
     flatpak run --command='bottles-cli' com.usebottles.bottles run --bottle $WINEPREFIXNAME --executable "$@"
+  fi
+
+  if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
+    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine "$@"
   fi
 }
 
@@ -74,10 +98,11 @@ wine-reg-add () {
   value="$2"
   type="$3"
   data="$4"
-  if [ "$WINEBRANCHNAME" != "bottles" ]; then
-    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "$key" /v "$value" /t "$type" /d "$data" /f  
-  else
+  if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
     flatpak run --command=bottles-cli com.usebottles.bottles reg --bottle $WINEPREFIXNAME --key "$key" --value "$value" --data "$data" --key-type "$type" add
+  fi
+  if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
+    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "$key" /v "$value" /t "$type" /d "$data" /f  
   fi
 }
 
