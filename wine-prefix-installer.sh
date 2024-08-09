@@ -12,13 +12,13 @@ WINEPREFIXFOLDER="$HOME/.wine-prefix"
 # Declare function to show usage of this script
 show-usage () {
   $SUBSCRIPT/highlighted-output.sh \
-    "Usage: $0 $WINESTABLEBRANCH|$WINESTAGINGBRANCH|$WINEDEVELBRANCH|bottles wine-prefix-order" \ \
+    "Usage: $0 $WINESTABLEBRANCH|$WINESTAGINGBRANCH|$WINEDEVELBRANCH|bottles|bottles-noreqs wine-prefix-order" \ \
     "List of all available wine-prefix-orders:" \ \
     "$(basename -s .sh -a $(ls -1v $WINEPREFIXORDERS/*))"
 }
 
 wine-branch-validity-check () {
-  if [ "$1" != "$WINESTABLEBRANCH" ] && [ "$1" != "$WINESTAGINGBRANCH" ] && [ "$1" != "$WINEDEVELBRANCH" ] && [ "$1" != "bottles" ]; then
+  if [ "$1" != "$WINESTABLEBRANCH" ] && [ "$1" != "$WINESTAGINGBRANCH" ] && [ "$1" != "$WINEDEVELBRANCH" ] && [ "$1" != "bottles" ] && [ "$1" != "bottles-noreqs" ]; then
     printf '%s\n' "ERROR! Provide valid wine branch statement within script parameters!" >&2
     show-usage
     return 1
@@ -59,6 +59,8 @@ parameter-count-check $# 2 || { show-usage && exit 1; }
 wine-branch-validity-check $1 || { show-usage && exit 1; }
 wine-prefix-order-validity-check $REQUESTEDWINEPREFIXORDER || { show-usage && exit 1; }
 
-$SUBSCRIPT/inst-reqs.sh wine $WINEBRANCHNAME || { printf '%s\n' "ERROR! Could not install requirements!" >&2 && exit 1; }
+if [[ "$WINEBRANCHNAME" != "bottles-noreqs" ]]; then
+  $SUBSCRIPT/inst-reqs.sh wine $WINEBRANCHNAME || { printf '%s\n' "ERROR! Could not install requirements!" >&2 && exit 1; }
+fi
 
 $WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEBRANCHNAME $WINEPREFIXFOLDER
