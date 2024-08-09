@@ -24,15 +24,7 @@ WINEBRANCHNAME=$1
 
 ### Procedures - Part 2 ###
 
-is-it-winehq () {
-  if [ "$1" != "$WINESTABLEBRANCH" ] && [ "$1" != "$WINESTAGINGBRANCH" ] && [ "$1" != "$WINEDEVELBRANCH" ] ]; then
-    echo "false"
-  else
-    echo "true"
-  fi
-}
-
-if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
+if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
 
   rm /etc/apt/sources.list.d/winehq.sources /etc/apt/sources.list.d/winehq-*.sources
   wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
@@ -44,6 +36,7 @@ if [[ "$(is-it-winehq $WINEBRANCHNAME)" = "true" ]]; then
   apt-get upgrade -y
   apt-get install --install-recommends winehq-$WINEBRANCHNAME -y
   apt-get install winetricks cabextract p11-kit p11-kit-modules winbind samba smbclient -y
+
 fi
 
 if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
