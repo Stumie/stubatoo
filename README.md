@@ -51,11 +51,13 @@ If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not w
 `wineprefixinstallerappname="sketchupmake2017de-x64"; distrobox-create --yes --name ${wineprefixinstallerappname} --image quay.io/toolbx-images/debian-toolbox:12; distrobox-enter --no-workdir --name ${wineprefixinstallerappname};`
 3. After you entered the newly created, Debian-based distrobox container, you need to add the `contrib` repository to the APT sources, e. g. like this:  
 `sudo sed -i 's/Components: main/Components: main contrib/g' /etc/apt/sources.list.d/debian.sources`
-4. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into the distrobox container with a single line:  
+4. Unfortunately `lsb_release` does not seem to be installed within that container image. So you have to install it, e. g. like this:  
+`sudo apt-get update && sudo apt-get install lsb-release`
+5. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into the distrobox container with a single line:  
 `cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh stable sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
-5. When the script and the 'SketchUp Make 2017' _(or your respective application to be installed)_ installer finished, you could try to start the application from the distrobox container's shell, e. g. like this:  
+6. When the script and the 'SketchUp Make 2017' _(or your respective application to be installed)_ installer finished, you could try to start the application from the distrobox container's shell, e. g. like this:  
 `WINEPREFIX=$HOME/.wine-prefix/sketchupmake2017de-x64 wine $HOME/.wine-prefix/sketchupmake2017de-x64/drive_c/Program\ Files/SketchUp/SketchUp\ 2017/SketchUp.exe`
-6. Normally, you could even export a launcher to the host-system from the distrobox container via `distrobox-export`, e. g. like this:  
+7. Normally, you could even export a launcher to the host-system from the distrobox container via `distrobox-export`, e. g. like this:  
 `distrobox-export --app SketchUp.desktop`  
 Unfortunately, this seems to be broken for the wine-prefix-order 'sketchupmake2017de-x64' (2024-02-25), because the application path contains a whitespace, which is handled incorrectly...
 ### wine-prefix-remover.sh
