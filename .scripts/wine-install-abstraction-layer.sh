@@ -68,6 +68,7 @@ wine-set-winver () {
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
     # flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # often freezes, comment out then
     flatpak run --command=bottles-cli com.usebottles.bottles shell --bottle $WINEPREFIXNAME --input "winecfg -v $winver"
+    $SUBSCRIPT/highlighted-output.sh "The script did set the windows version of your bottle to \"$winver\". Though, for the bottles path it can be inconsistent. You better re-set the windows version within the GUI."
   fi
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
     install-winetricks-verbs "$winver"
