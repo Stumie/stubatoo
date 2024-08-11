@@ -48,9 +48,6 @@ if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
   sudo flatpak update -y
   sudo flatpak install flathub com.usebottles.bottles
 
-  # Allow flatpak access to home directory for Bottles
-  flatpak override --user --filesystem=$HOME com.usebottles.bottles
-
 fi
 
 winetricks --unattended --self-update

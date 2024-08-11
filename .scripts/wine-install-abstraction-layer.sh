@@ -17,9 +17,31 @@ FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME
 
 source $SUBSCRIPT/wine-install-winetricks-verbs.sh
 
+download () {
+  downloadlink="$1"
+  $SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $downloadlink || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+}
+
+download-followlink () {
+  downloadlink="$1"
+  filename="$2"
+  $SUBSCRIPT/wine-prefix-download-software-followlink.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $downloadlink $filename  || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
+}
+
 wine-prepare () {
+  if [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
+    # Workaround to get winetricks without requirement installation
+    if ! command -v winetricks &> /dev/null; then
+      $SUBSCRIPT/check-for-software-existence.sh curl || exit 1
+      mkdir -p $HOME/.local/bin/
+      curl -L -z $HOME/.local/bin/winetricks "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" -o $HOME/.local/bin/winetricks
+      chmod +x $HOME/.local/bin/winetricks
+      [[ " ${PATH//:/ } " =~ " $HOME/.local/bin " ]] || export PATH="$HOME/.local/bin${PATH:+:${PATH}}"
+    fi
+  fi
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
     $SUBSCRIPT/check-for-software-existence.sh flatpak fzf || exit 1
+    flatpak override --user --filesystem=$HOME com.usebottles.bottles  # Allow flatpak access to home directory for Bottles
     WINEPREFIXFOLDER="$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)" # Hack: Overwrite WINEPREFIXFOLDER constant when bottles shall be used
     FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME # Hack: Overwrite FULLWINEPREFIXPATH since WINEPREFIXFOLDER changed
     if [[ -d "$FULLWINEPREFIXPATH" ]]; then
@@ -44,7 +66,7 @@ wine-prepare () {
 wine-set-winver () {
   winver="$1"
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
-    # flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # Commented out since it often freezes but generally is a better way
+    # flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # often freezes, comment out then
     flatpak run --command=bottles-cli com.usebottles.bottles shell --bottle $WINEPREFIXNAME --input "winecfg -v $winver"
   fi
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
@@ -55,7 +77,7 @@ wine-set-winver () {
 wine-install-prerequisites () {
   $SUBSCRIPT/check-for-software-existence.sh winetricks || exit 1
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
-    WINE=$WINEBINARIESPATH/wine WINESERVER=$WINEBINARIESPATH/wineserver WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH winetricks --unattended "$@" # Install dependencies via winetricks since bottles-cli does not offer an interface for it (2024-01-23)
+    flatpak run --env=WINE=$WINEBINARIESPATH/wine --env=WINESERVER=$WINEBINARIESPATH/wineserver --env=WINEPREFIX=$FULLWINEPREFIXPATH --env=WINEARCH=$WINEARCH --command=$(command -v winetricks) com.usebottles.bottles --unattended "$@" # Install dependencies via winetricks since bottles-cli does not offer an interface for it (2024-01-23)
   fi
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
     install-winetricks-verbs "$@"  
@@ -64,8 +86,8 @@ wine-install-prerequisites () {
 
 wine-reboot () {
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
-    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH $WINEBINARIESPATH/wineboot -u
-    WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH $WINEBINARIESPATH/wineboot -r
+    flatpak run --env=WINE=$WINEBINARIESPATH/wine --env=WINESERVER=$WINEBINARIESPATH/wineserver --env=WINEPREFIX=$FULLWINEPREFIXPATH --env=WINEARCH=$WINEARCH --command=$WINEBINARIESPATH/wineboot com.usebottles.bottles -u
+    flatpak run --env=WINE=$WINEBINARIESPATH/wine --env=WINESERVER=$WINEBINARIESPATH/wineserver --env=WINEPREFIX=$FULLWINEPREFIXPATH --env=WINEARCH=$WINEARCH --command=$WINEBINARIESPATH/wineboot com.usebottles.bottles -r
   fi
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
     WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wineboot -u
@@ -93,15 +115,4 @@ wine-reg-add () {
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
     WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "$key" /v "$value" /t "$type" /d "$data" /f  
   fi
-}
-
-download () {
-  downloadlink="$1"
-  $SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $downloadlink || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
-}
-
-download-followlink () {
-  downloadlink="$1"
-  filename="$2"
-  $SUBSCRIPT/wine-prefix-download-software-followlink.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $downloadlink $filename  || { printf '%s\n' "ERROR! Could not download file!" >&2 && exit 1; }
 }
