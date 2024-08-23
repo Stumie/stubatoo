@@ -27,7 +27,7 @@ $SUBSCRIPT/press-any-key-helper.sh
 
 O2016SETUPFILEPATH=$(ask-for-filepath)
 
-if [ $O2016SETUPFILEPATH == "" ] || ! [[ "$O2016SETUPFILEPATH" =~ .*".exe" ]]; then
+if [[ "$O2016SETUPFILEPATH" = "" ]] || ! [[ "$O2016SETUPFILEPATH" =~ .*".exe" ]]; then
   printf '%s\n' "ERROR! Could not find setup file!" >&2
   exit 1
 fi
