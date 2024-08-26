@@ -19,6 +19,9 @@ DOWNLOADFOLDER=$WINEPREFIXFOLDER/tmp-downloads/$WINEPREFIXNAME
 ### Procedures ###
 
 # Outcomment the lines below to start using the template 
+# IMPORTANT! All downloads need to happen before 'wine-prepare'
+
+#download "https://dl.winehq.org/wine/wine-mono/4.5.0/wine-mono-4.5.0.msi"
 #wine-prepare
 #wine-set-winver win7
 
