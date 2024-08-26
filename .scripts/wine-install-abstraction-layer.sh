@@ -128,11 +128,19 @@ enable-vulkan-renderer () {
 }
 
 enable-dxvk () {
-  enable-vulkan-renderer
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
     flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --params dxvk:true
   fi
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
     install-winetricks-verbs "dxvk"
+  fi
+}
+
+enable-vkd3d () {
+  if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
+    flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --params vkd3d:true
+  fi
+  if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
+    install-winetricks-verbs "vkd3d"
   fi
 }
