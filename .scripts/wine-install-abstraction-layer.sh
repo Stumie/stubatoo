@@ -67,8 +67,8 @@ wine-set-winver () {
   winver="$1"
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
     flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # sometimes freezes, comment out then
-    flatpak run --command=bottles-cli com.usebottles.bottles shell --bottle $WINEPREFIXNAME --input "winecfg -v $winver"
-    $SUBSCRIPT/highlighted-output.sh "The script did set the windows version of your bottle to \"$winver\". Though, for the bottles path it can be inconsistent. You better re-set the windows version within the GUI."
+    flatpak run --command=bottles-cli com.usebottles.bottles shell --bottle $WINEPREFIXNAME --input "winecfg -v $winver" # because the former command often does not work
+    $SUBSCRIPT/highlighted-output.sh "The script did set the windows version of your bottle to \"$winver\". Though, for the bottles path of this script this can be inconsistent. You better re-set the windows version within the Bottles GUI."
   fi
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
     install-winetricks-verbs "$winver"
@@ -115,5 +115,24 @@ wine-reg-add () {
   fi
   if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
     WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "$key" /v "$value" /t "$type" /d "$data" /f  
+  fi
+}
+
+enable-vulkan-renderer () {
+  if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
+    flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --params renderer:vulkan
+  fi
+  if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
+    install-winetricks-verbs "renderer=vulkan"
+  fi
+}
+
+enable-dxvk () {
+  enable-vulkan-renderer
+  if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
+    flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --params dxvk:true
+  fi
+  if ! [ "$WINEBRANCHNAME" != "$WINESTABLEBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINESTAGINGBRANCH" ] && [ "$WINEBRANCHNAME" != "$WINEDEVELBRANCH" ]; then
+    install-winetricks-verbs "dxvk"
   fi
 }
