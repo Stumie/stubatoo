@@ -9,9 +9,6 @@
 
 WINEARCH="win32"
 
-WEBVIEWDOWNLOADLINK="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
-WEBVIEWSETUPFILENAME="microsoftedgewebview2setup.exe"
-
 ### Variable declarations ###
 
 THISSCRIPTPATH=$(readlink -f $0)
