@@ -50,7 +50,7 @@ wine-prepare () {
     fi
     $SUBSCRIPT/highlighted-output.sh "The script will now ask: Which wine runner available in Bottles should be used?"
     $SUBSCRIPT/press-any-key-helper.sh
-    RUNNER=$(flatpak run --command=bottles-cli com.usebottles.bottles list components -f category:runners  | grep - | awk '{print $2}' | fzf --phony --no-multi --layout=reverse --header="Which wine runner available in Bottles should be used?" | xargs printf "%q\n")
+    RUNNER=$(flatpak run --command=bottles-cli com.usebottles.bottles list components -f category:runners  | grep - | awk '{print $2}' | grep -v sys-wine | fzf --phony --no-multi --layout=reverse --header="Which wine runner available in Bottles should be used?" | xargs printf "%q\n")
     if [ "$RUNNER" = "" ]; then
       echo "No wine runner chosen or available within Bottles. Please open Bottles and add one first."
       exit 1
@@ -66,7 +66,7 @@ wine-prepare () {
 wine-set-winver () {
   winver="$1"
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
-    # flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # often freezes, comment out then
+    flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # sometimes freezes, comment out then
     flatpak run --command=bottles-cli com.usebottles.bottles shell --bottle $WINEPREFIXNAME --input "winecfg -v $winver"
     $SUBSCRIPT/highlighted-output.sh "The script did set the windows version of your bottle to \"$winver\". Though, for the bottles path it can be inconsistent. You better re-set the windows version within the GUI."
   fi
