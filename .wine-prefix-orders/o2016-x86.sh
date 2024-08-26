@@ -2,6 +2,9 @@
 
 # Usage: $WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEPREFIXFOLDER
 
+# Tested working: 
+# - Fedora Kinoite 40, bottles-noreqs, caffe-7.20, custom changes: renderer=vulkan
+
 ### Constant declarations ###
 
 WINEARCH="win32"
