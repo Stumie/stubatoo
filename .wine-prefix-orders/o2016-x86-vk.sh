@@ -2,6 +2,9 @@
 
 # Usage: $WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEPREFIXFOLDER
 
+# Tested working: 
+# - Fedora Kinoite 40, bottles-noreqs, caffe-7.20
+
 ### Constant declarations ###
 
 WINEARCH="win32"
@@ -39,6 +42,8 @@ wine-set-winver win7
 
 # Install necessary prerequisites 
 wine-install-prerequisites msxml6 riched20 corefonts tahoma pptfonts
+
+enable-vulkan-renderer
 
 # Add Wine registry keys for workarounds
 wine-reg-add "HKCU\Software\Wine\Direct2D" "max_version_factory" "REG_DWORD" "0"
