@@ -22,7 +22,11 @@ SETUPFILEPATH=$DOWNLOADFOLDER/$SETUPFILENAME
 
 ### Procedures ###
 
+# Download Leonardo setup file
 download $EXEDOWNLOADLINK
+
+# Download SegoeUi for Workaround further below
+download $SEGOEUITTFDOWNLOADLINK
 
 wine-prepare
 
@@ -33,8 +37,8 @@ wine-set-winver win10
 wine-install-prerequisites courier
 
 # Workaround: Since winetricks currently does not offer SegoeUi, we download it over fontsforyou.com and add it to the prefix.
-wget $SEGOEUITTFDOWNLOADLINK -O $FULLWINEPREFIXPATH/drive_c/windows/Fonts/segoeui.ttf
-WINEPREFIX=$FULLWINEPREFIXPATH WINEARCH=$WINEARCH wine reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "SegoeUi (TrueType)" /t REG_SZ /d segoeui.ttf /f
+cp -fv $DOWNLOADFOLDER/$(basename $SEGOEUITTFDOWNLOADLINK) $FULLWINEPREFIXPATH/drive_c/windows/Fonts/segoeui.ttf
+wine-reg-add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" "SegoeUi (TrueType)" "REG_SZ" "segoeui.ttf"
 
 wine-reboot
 
