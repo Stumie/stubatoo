@@ -40,7 +40,7 @@ wine-prepare () {
     fi
   fi
   if [[ "$WINEBRANCHNAME" = "bottles" ]] || [[ "$WINEBRANCHNAME" = "bottles-noreqs" ]]; then
-    $SUBSCRIPT/check-for-software-existence.sh flatpak fzf || exit 1
+    $SUBSCRIPT/check-for-software-existence.sh flatpak jq fzf || exit 1
     flatpak override --user --filesystem=$HOME com.usebottles.bottles  # Allow flatpak access to home directory for Bottles
     WINEPREFIXFOLDER="$(flatpak run --command=bottles-cli com.usebottles.bottles info bottles-path)" # Hack: Overwrite WINEPREFIXFOLDER constant when bottles shall be used
     FULLWINEPREFIXPATH=$WINEPREFIXFOLDER/$WINEPREFIXNAME # Hack: Overwrite FULLWINEPREFIXPATH since WINEPREFIXFOLDER changed
@@ -50,7 +50,7 @@ wine-prepare () {
     fi
     $SUBSCRIPT/highlighted-output.sh "The script will now ask: Which wine runner available in Bottles should be used?"
     $SUBSCRIPT/press-any-key-helper.sh
-    RUNNER=$(flatpak run --command=bottles-cli com.usebottles.bottles list components -f category:runners  | grep - | awk '{print $2}' | grep -v sys-wine | fzf --phony --no-multi --layout=reverse --header="Which wine runner available in Bottles should be used?" | xargs printf "%q\n")
+    RUNNER=$(flatpak run --command=bottles-cli com.usebottles.bottles --json list components -f category:runners | jq -r .runners[] | grep -v sys-wine | fzf --phony --no-multi --layout=reverse --header="Which wine runner available in Bottles should be used?" | xargs printf "%q\n")
     if [ "$RUNNER" = "" ]; then
       echo "No wine runner chosen or available within Bottles. Please open Bottles and add one first."
       exit 1
