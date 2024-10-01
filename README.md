@@ -35,7 +35,7 @@ This little helper script pulls all repos in that workspace directory.
 ### wine-prefix-installer.sh
 #### Introduction
 This is the probably biggest and most complex script within my toolbox. The script's goal is to help installing Windows software under Linux via Wine, like e. g. also [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/) or [Bottles](https://usebottles.com/) _(..., which can be also chosen as installation target in my script...)_ do. Main differences of this script are the higher focus on automation and the absence of a GUI _(and of course, that my script is much simpler since it's only an one-person-hobby-project)_.\
-It all started with my efforts in bringing O365 to Linux: Therefore, the `wine-prefix-installer.sh` script's forefather is my other GitHub repo [Stumie/wine-prefix_O365](https://github.com/Stumie/wine-prefix_O365), which still exists, but is not publicly available anymore.
+It all started with my efforts in bringing O365 to Linux: Therefore, the forefather of the `wine-prefix-installer.sh` script is my other GitHub repo [Stumie/wine-prefix_O365](https://github.com/Stumie/wine-prefix_O365), which still exists, but is not publicly available anymore.
 #### Known flaws
 Before use, be aware of some known flaws:
 * The script does have minor error handling. It shouldn't break your system, but still, be cautious and check console output carefully! _(...although wine tends to be very verbose...)_
