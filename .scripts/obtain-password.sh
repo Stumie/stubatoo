@@ -16,7 +16,7 @@ ask-for-password () {
     password=$(ssh-askpass) # Prompts for window environment agnostic, but still graphical ssh-askpass
   elif command -v /lib/cryptsetup/askpass &> /dev/null; then
     password=$(/lib/cryptsetup/askpass "$passwordpromptstring") # Prompts for password within terminal
-  elif command -v /systemd-ask-password &> /dev/null; then
+  elif command -v systemd-ask-password &> /dev/null; then
     password=$(systemd-ask-password "$passwordpromptstring") # Prompts for password within terminal
   elif command -v read &> /dev/null; then
     read -p "$passwordpromptstring" -s password
