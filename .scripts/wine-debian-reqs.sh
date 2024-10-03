@@ -43,7 +43,7 @@ if [[ "$WINEBRANCHNAME" = "bottles" ]]; then
 
   sudo apt-get update
   sudo apt-get upgrade -y
-  sudo apt install flatpak winetricks coreutils grep fzf jq -y
+  sudo apt-get -y install flatpak winetricks coreutils grep fzf jq
   sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   sudo flatpak update -y
   sudo flatpak install flathub com.usebottles.bottles
