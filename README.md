@@ -46,7 +46,7 @@ Before use, be aware of some known flaws:
 * ...and probably many more flaws...
 #### Usage hints for Debian and Ubuntu
 On Debian and Ubuntu, you can try all branches. The script was initially designed for Debian. All features should work. `stable` and `bottles` are the recommended branches though.
-#### On non-Debian-based systems: Distrobox
+#### Usage hints for Non-Debian-based systems: Distrobox
 If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not work for you on a regular basis, you might want to still try the script with the help of [distrobox](https://github.com/89luca89/distrobox).
 1. Install distrobox on your system: https://github.com/89luca89/distrobox?tab=readme-ov-file#installation
 2. Create and enter a Debian-based distrobox container, e. g. like this _(here, in this __example__, to install the wine-prefix-order 'sketchupmake2017de-x64')_:  
@@ -62,7 +62,7 @@ If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not w
 7. Normally, you could even export a launcher to the host-system from the distrobox container via `distrobox-export`, e. g. like this:  
 `distrobox-export --app SketchUp.desktop`  
 Unfortunately, this seems to be broken for the wine-prefix-order 'sketchupmake2017de-x64' (2024-02-25), because the application path contains a whitespace, which is handled incorrectly...
-#### On non-Debian-based systems: `bottles-noreqs` branch
+#### Usage hints for Non-Debian-based systems: `bottles-noreqs` branch
 Mostly interesting for a somewhat native experience on immutable distributions, like e. g. Fedora Kinoite.
 1. Install Bottles via Flatpak
 2. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into a new Bottles bottle with a single line:  
