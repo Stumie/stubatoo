@@ -86,6 +86,7 @@ wine-prepare () {
 }
 
 wine-set-winver () {
+  winver=$1
   case "$WINEBRANCHNAME" in
     "bottles" | "bottles-noreqs")
       flatpak run --command=bottles-cli com.usebottles.bottles edit --bottle $WINEPREFIXNAME --win $winver # sometimes freezes, comment out then
