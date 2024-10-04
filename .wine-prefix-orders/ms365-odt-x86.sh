@@ -67,28 +67,7 @@ wine-execute $WEBVIEWSETUPPATH /silent /install
 # Product ID hints: https://learn.microsoft.com/en-us/microsoft-365/troubleshoot/installation/product-ids-supported-office-deployment-click-to-run
 # Version hints: https://learn.microsoft.com/en-us/officeupdates/update-history-office-win7
 mkdir -p $FULLWINEPREFIXPATH/drive_c/ODT
-cat << EOF > $FULLWINEPREFIXPATH/drive_c/ODT/installOfficeProPlus32.xml
-<Configuration>
-  <Add OfficeClientEdition="32" Version="16.0.12527.22286">
-    <Product ID="O365ProPlusRetail">
-      <Language ID="MatchOS" Fallback="en-us" />
-      <ExcludeApp ID="Outlook" />
-      <ExcludeApp ID="OneNote" />
-      <ExcludeApp ID="OneDrive" />
-      <ExcludeApp ID="Groove" />
-      <ExcludeApp ID="Lync" />
-      <ExcludeApp ID="Bing" />
-      <ExcludeApp ID="Teams" />
-    </Product>
-  </Add>
-  <AppSettings>
-    <User Key="software\microsoft\office\16.0\excel\options" Name="defaultformat" Value="51" Type="REG_DWORD" App="excel16" Id="L_SaveExcelfilesas" />
-    <User Key="software\microsoft\office\16.0\powerpoint\options" Name="defaultformat" Value="27" Type="REG_DWORD" App="ppt16" Id="L_SavePowerPointfilesas" />
-    <User Key="software\microsoft\office\16.0\word\options" Name="defaultformat" Value="" Type="REG_SZ" App="word16" Id="L_SaveWordfilesas" />
-  </AppSettings>
-  <Display Level="Full" AcceptEULA="TRUE" />
-</Configuration>
-EOF
+cp -fv $THISDIRPATH/../.configs/ms365-odt-x86-for-win7-via-wine.xml $FULLWINEPREFIXPATH/drive_c/ODT/installOfficeProPlus32.xml
 
 # Create Setup with Office Deployment Tool
 wine-execute $SETUPFILEPATH /quiet /passive /norestart /extract:$FULLWINEPREFIXPATH/drive_c/ODT/
