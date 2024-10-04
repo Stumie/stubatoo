@@ -49,7 +49,7 @@ fi
 if [ "$INSTALLATIONVARIANT" = "winehq" ]; then
   $SUBSCRIPT/check-for-software-existence.sh winetricks || exit 1
   wineprefix=$(ls -1v $WINEPREFIXFOLDER | grep -v 'tmp-downloads' \
-    | fzf --phony --no-multi --layout=reverse --header="Which bottle do you want to remove cleanly?" \
+    | fzf --phony --no-multi --layout=reverse --border --header="Which bottle do you want to remove cleanly?" \
     | xargs printf "%q\n")
   if [ "$wineprefix" != "" ]; then
     $SUBSCRIPT/highlighted-output.sh \
