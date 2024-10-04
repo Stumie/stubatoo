@@ -64,8 +64,9 @@ If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not w
 Unfortunately, this seems to be broken for the wine-prefix-order 'sketchupmake2017de-x64' (2024-02-25), because the application path contains a whitespace, which is handled incorrectly...
 #### Usage hints for Non-Debian-based systems: `bottles-noreqs` branch
 Mostly interesting for a somewhat native experience on immutable distributions, like e. g. Fedora Kinoite.
-1. Install Bottles via Flatpak
-2. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into a new Bottles bottle with a single line:  
+1. Install Bottles via Flatpak.
+2. Start Bottles once and download at least one runner.
+3. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into a new Bottles bottle with a single line:  
 `cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh bottles-noreqs sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
 ### wine-prefix-remover.sh
 With this handy little script you can remove wine prefixes and bottles comfortable, that you formerly created with the help of `wine-prefix-installer.sh`.
