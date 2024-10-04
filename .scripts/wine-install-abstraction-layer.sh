@@ -33,6 +33,7 @@ download-followlink () {
 unpackzip () {
   zipfile="$1"
   targetpath="$2"
+  if [ "$zipfile" = "" ] || [ "$targetpath" = "" ]; then printf '%s\n' "ERROR! Could not extract file!" >&2 && exit 1; fi
   if $SUBSCRIPT/check-for-software-existence.sh unzip &> /dev/null; then
     unzip -o $zipfile -d $targetpath
   elif $SUBSCRIPT/check-for-software-existence.sh 7z &> /dev/null; then
