@@ -14,7 +14,7 @@ WINEDEVELBRANCH="devel"
 dpkg --add-architecture i386
 apt-get update -y
 apt-get upgrade -y
-apt-get install gcc make perl curl wget dos2unix unzip p7zip-full zstd lsb-release fzf coreutils grep software-properties-common -y
+apt-get install -y software-properties-common coreutils grep zstd curl wget lsb-release fzf unzip p7zip-full
 
 ### Variable declarations - Part 2 ###
 
