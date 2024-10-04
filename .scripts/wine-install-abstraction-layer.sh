@@ -53,6 +53,15 @@ wine-prepare () {
       chmod +x $HOME/.local/bin/winetricks
       [[ " ${PATH//:/ } " =~ " $HOME/.local/bin " ]] || export PATH="$HOME/.local/bin${PATH:+:${PATH}}"
     fi
+    if ! $SUBSCRIPT/check-for-software-existence.sh fzf &> /dev/null; then
+      if [[ "$(uname -m)" = "x86_64" ]]; then
+        $SUBSCRIPT/check-for-software-existence.sh curl || exit 1
+        mkdir -p $HOME/.local/bin/
+        curl -s -L "$(curl -s https://api.github.com/repos/junegunn/fzf/releases/latest | jq -r '.assets[].browser_download_url | select(endswith("linux_amd64.tar.gz"))')" | tar xvz -C $HOME/.local/bin/
+        chmod +x $HOME/.local/bin/fzf
+        [[ " ${PATH//:/ } " =~ " $HOME/.local/bin " ]] || export PATH="$HOME/.local/bin${PATH:+:${PATH}}"
+      fi
+    fi
   fi
 
   case "$WINEBRANCHNAME" in
