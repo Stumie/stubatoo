@@ -107,7 +107,7 @@ cp -fv $FULLWINEPREFIXPATH/drive_c/Program\ Files/Common\ Files/Microsoft\ Share
 cp -fv $FULLWINEPREFIXPATH/drive_c/Program\ Files/Common\ Files/Microsoft\ Shared/ClickToRun/*.dll $FULLWINEPREFIXPATH/drive_c/Program\ Files/Microsoft\ Office/root/Client/
 
 # Workaround: Add elscore.dll for some programms to start
-unzip -o $DOWNLOADFOLDER/$(basename $ELSCOREATWINEDLLDOTCOM) -d $DOWNLOADFOLDER
+unpackzip $DOWNLOADFOLDER/$(basename $ELSCOREATWINEDLLDOTCOM) $DOWNLOADFOLDER
 cp -fv $DOWNLOADFOLDER/ELSCore.dll $FULLWINEPREFIXPATH/drive_c/Program\ Files/Microsoft\ Office/root/Office16/
 mv -fv $DOWNLOADFOLDER/ELSCore.dll $FULLWINEPREFIXPATH/drive_c/Program\ Files/Microsoft\ Office/root/Client/
 

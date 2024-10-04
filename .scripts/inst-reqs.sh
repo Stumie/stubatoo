@@ -16,10 +16,13 @@ SOFTWARENAMEBRANCH=$2
 $SUBSCRIPT/highlighted-output.sh "The script will now update packages and install prerequisites."
 
 case "$(lsb_release -is)" in
-  Debian)   printf '%s\n' "Debian Linux detected." && \
-            $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH"" ;;
-  Ubuntu)   printf '%s\n' "Ubuntu Linux detected. Trying Debian requirements, what should work for Ubuntu as well." && \
-            $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH""   ;;
-  *)        printf '%s\n' "ERROR! Currently there's no suitable routine implemented to install requirements on your system." >&2 && \
+  Debian)   printf '%s\n' "Debian Linux detected."
+            $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH""
+            ;;
+  Ubuntu)   printf '%s\n' "Ubuntu Linux detected. Trying Debian requirements, what should work for Ubuntu as well."
+            $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH""
+            ;;
+  *)        printf '%s\n' "ERROR! Currently there's no suitable routine implemented to install requirements on your system." >&2
             exit 1
+            ;;
 esac
