@@ -2,6 +2,9 @@
 
 # Usage: $WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEPREFIXFOLDER
 
+# Tested working: 
+# - Linux Mint 22, stable (WineHQ 9.0)
+
 ### Constant declarations ###
 
 WINEARCH="win32"
