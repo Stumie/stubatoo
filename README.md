@@ -39,15 +39,18 @@ It all started with my efforts in bringing O365 to Linux: Therefore, the forefat
 #### Known flaws
 Before use, be aware of some known flaws:
 * The script does only have minor error handling. It shouldn't break your system, but still, be cautious and check console output carefully! _(...although wine tends to be very verbose...)_
-* The script currently only has dependency installation routines for Debian-based distributions, mainly because of included apt-get commands and apt source installations. You can use distrobox containers or the `bottles-noreqs` branch on other distributions.
+* The script currently only has dependency installation routines for Debian _(and probably also Ubuntu)_ distributions, mainly because of included apt-get commands and apt source installations. You can use distrobox containers or the `bottles-noreqs` path on other distributions.
 * The script currently automatically installs the most current [WineHQ](https://www.winehq.org/) release of the chosen release branch _(except for the `bottles` and the `bottles-noreqs` variant)_, directly from the WineHQ repositories. Although I'm able to test some releases, I cannot guarantee functionality.
 * The script, and especially its `wine-prefix-orders`, include some hardcoded URLs or other clauses, which might get outdated or break in the future. Also here: No guarantee for functionality.
 * If you choose `bottles` as your installation target, in the current state Mono and Gecko are not installed by default: That means, that some `wine-prefix-orders`, that do work with the WineHQ variant, might not work with Bottles as installation target _(at least not out of the box)_.
 * ...and probably many more flaws...
-#### Usage hints for Debian and Ubuntu
-On Debian and Ubuntu, you can try all branches. The script was initially designed for Debian. All features should work. `stable` and `bottles` are the recommended branches though.
-#### Usage hints for Non-Debian-based systems: Distrobox
+#### Usage hints for Debian _(and probably also Ubuntu)_
+* On Debian _(and probably also Ubuntu)_, you can try all pathes. The script was initially designed for Debian: Therefore, all features should work as designed. `stable` and `bottles` are the recommended pathes though.
+* You might want to clone the stubatoo GitHub repository and e. g. install the wine-prefix-order 'sketchupmake2017de-x64' with a single line:  
+`cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh stable sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
+#### Usage hints for Non-Debian systems: Distrobox
 If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not work for you on a regular basis, you might want to still try the script with the help of [distrobox](https://github.com/89luca89/distrobox).
+Also interesting on immutable distributions, like e. g. Fedora Kinoite.
 1. Install distrobox on your system: https://github.com/89luca89/distrobox?tab=readme-ov-file#installation
 2. Create and enter a Debian-based distrobox container, e. g. like this _(here, in this __example__, to install the wine-prefix-order 'sketchupmake2017de-x64')_:  
 `wineprefixinstallerappname="sketchupmake2017de-x64"; distrobox-create --yes --name ${wineprefixinstallerappname} --image quay.io/toolbx-images/debian-toolbox:12; distrobox-enter --no-workdir --name ${wineprefixinstallerappname};`
@@ -55,18 +58,19 @@ If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not w
 `sudo sed -i 's/Components: main/Components: main contrib/g' /etc/apt/sources.list.d/debian.sources`
 4. Unfortunately `lsb_release` does not seem to be installed within that container image. So you have to install it, e. g. like this:  
 `sudo apt-get update && sudo apt-get install lsb-release`
-5. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into the distrobox container with a single line:  
+5. Then you might want to clone the stubatoo GitHub repository and e. g. install the wine-prefix-order 'sketchupmake2017de-x64' into the distrobox container with a single line:  
 `cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh stable sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
 6. When the script and the 'SketchUp Make 2017' _(or your respective application to be installed)_ installer finished, you could try to start the application from the distrobox container's shell, e. g. like this:  
 `WINEPREFIX=$HOME/.wine-prefix/sketchupmake2017de-x64 wine $HOME/.wine-prefix/sketchupmake2017de-x64/drive_c/Program\ Files/SketchUp/SketchUp\ 2017/SketchUp.exe`
 7. Normally, you could even export a launcher to the host-system from the distrobox container via `distrobox-export`, e. g. like this:  
 `distrobox-export --app SketchUp.desktop`  
 Unfortunately, this seems to be broken for the wine-prefix-order 'sketchupmake2017de-x64' (2024-02-25), because the application path contains a whitespace, which is handled incorrectly...
-#### Usage hints for Non-Debian-based systems: `bottles-noreqs` branch
-Mostly interesting for a somewhat native experience on immutable distributions, like e. g. Fedora Kinoite.
-1. Install Bottles via Flatpak.
-2. Start Bottles once and download at least one runner.
-3. Then you might want to clone the stubatoo GitHub repository and install the wine-prefix-order 'sketchupmake2017de-x64' into a new Bottles bottle with a single line:  
+#### Usage hints for Non-Debian systems: `bottles-noreqs` path
+If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not work for you on a regular basis, you might want to still try the script without any requirement installations.
+Also interesting on immutable distributions, like e. g. Fedora Kinoite.
+1. Install [Bottles](https://usebottles.com/) via Flatpak.
+2. Start Bottles once, download at least one wine runner and close Bottles again.
+3. Then you might want to clone the stubatoo GitHub repository and e. g. install the wine-prefix-order 'sketchupmake2017de-x64' into a new Bottles bottle with a single line:  
 `cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh bottles-noreqs sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
 ### wine-prefix-remover.sh
 With this handy little script you can remove wine prefixes and bottles comfortable, that you formerly created with the help of `wine-prefix-installer.sh`.
