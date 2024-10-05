@@ -22,6 +22,9 @@ case "$(lsb_release -is)" in
   Ubuntu)   printf '%s\n' "Ubuntu Linux detected. Trying Debian requirements, what should work for Ubuntu as well."
             $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH""
             ;;
+  Linuxmint)printf '%s\n' "Linux Mint detected. Trying Debian requirements, what should work for Linux Mint as well."
+            $SUBSCRIPT/elevated-run.sh "$SUBSCRIPT/$SOFTWARENAME-debian-reqs.sh "$SOFTWARENAMEBRANCH""
+            ;;
   *)        printf '%s\n' "ERROR! You're running $(lsb_release -is). Currently there's no suitable routine implemented to install requirements on your system." >&2
             exit 1
             ;;

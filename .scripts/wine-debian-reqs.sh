@@ -34,6 +34,10 @@ case "$WINEBRANCHNAME" in
     sudo flatpak install flathub com.usebottles.bottles
     ;;
   "$WINESTABLEBRANCH" | "$WINESTAGINGBRANCH" | "$WINEDEVELBRANCH")
+    if [[ "$DISTRIRELEASE" = "linuxmint" ]]; then
+      DISTRIRELEASE="ubuntu"
+      DISTRIVERSION="$(awk -F= '$1=="UBUNTU_CODENAME" { print $2 ;}' /etc/os-release)"
+    fi
     rm /etc/apt/sources.list.d/winehq.sources /etc/apt/sources.list.d/winehq-*.sources
     wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
     wget -nc -O /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/$DISTRIRELEASE/dists/$DISTRIVERSION/winehq-$DISTRIVERSION.sources
