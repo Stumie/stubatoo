@@ -46,7 +46,7 @@ Before use, be aware of some known flaws:
 * ...and probably many more flaws...
 #### Usage hints for Debian _(and probably also Ubuntu)_
 * On Debian _(and probably also Ubuntu)_, you can try all pathes. The script was initially designed for Debian: Therefore, all features should work as designed. `stable` and `bottles` are the recommended pathes though.
-* You might want to clone the stubatoo GitHub repository and e. g. install the wine-prefix-order 'sketchupmake2017de-x64' with a single line:  
+* You might want to clone the stubatoo GitHub repository and install your wished wine-prefix-order _(here, in this __example__, it's 'sketchupmake2017de-x64')_ with a single line:  
 `cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh stable sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
 #### Usage hints for Non-Debian systems: Distrobox
 If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not work for you on a regular basis, you might want to still try the script with the help of [distrobox](https://github.com/89luca89/distrobox).
@@ -70,7 +70,7 @@ If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not w
 Also interesting on immutable distributions, like e. g. Fedora Kinoite.
 1. Install [Bottles](https://usebottles.com/) via Flatpak.
 2. Start Bottles once, download at least one wine runner and close Bottles again.
-3. Then you might want to clone the stubatoo GitHub repository and e. g. install the wine-prefix-order 'sketchupmake2017de-x64' into a new Bottles bottle with a single line:  
+3. Then you might want to clone the stubatoo GitHub repository and install your wished wine-prefix-order _(here, in this __example__, it's 'sketchupmake2017de-x64')_ into a new Bottles bottle with a single line:  
 `cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh bottles-noreqs sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
 ### wine-prefix-remover.sh
 With this handy little script you can remove wine prefixes and bottles comfortable, that you formerly created with the help of `wine-prefix-installer.sh`.
