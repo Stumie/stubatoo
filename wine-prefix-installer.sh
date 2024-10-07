@@ -54,6 +54,7 @@ REQUESTEDWINEPREFIXORDER=$2
 source $SUBSCRIPT/parameter-count-check.sh
 source $SUBSCRIPT/root-protection.sh
 
+if [[ "$(uname -m)" != "x86_64" ]]; then echo "Sorry, your processor architecture is not supported (yet)! Aborting." && exit 1; fi
 root-protection || { show-usage && exit 1; }
 parameter-count-check $# 2 || { show-usage && exit 1; }
 wine-branch-validity-check $1 || { show-usage && exit 1; }
