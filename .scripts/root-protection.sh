@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Usage within script: 
+# source $SUBSCRIPT/root-protection.sh
+# root-protection || { exit 1; }
+# ...
+
 ### Function declarations ###
 
 root-protection () {

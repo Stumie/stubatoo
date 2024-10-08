@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Usage: $SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $DOWNLOADLINK
+# Usage: Do not use directly! Use the function 'download' from '$SUBSCRIPT/wine-install-abstraction-layer.sh' instead!
+# Apart from that: $SUBSCRIPT/wine-prefix-download-software.sh $WINEPREFIXFOLDER $WINEPREFIXNAME $DOWNLOADLINK
 
 ### Variable declarations ###
 

@@ -2,7 +2,7 @@
 
 # Usage within script: 
 # source $SUBSCRIPT/obtain-password.sh
-# obtain password
+# obtain-password
 
 ### Function declarations ###
 

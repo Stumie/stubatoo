@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Usage within script: 
+# source $SUBSCRIPT/wine-install-abstraction-layer.sh
+# wine-prepare
+# ...
+
 ### Constant declarations ###
 
 WINESTABLEBRANCH="stable"

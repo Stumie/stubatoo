@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Usage: Do not use directly! Only use 'wine-prefix-installer.sh $BRANCH _cleanup-tmp-downloads' cleanup your temporary downloads!
+
 ### Variable declarations ###
 
 THISSCRIPTPATH=$(readlink -f $0)

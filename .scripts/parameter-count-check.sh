@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Usage within script: 
+# source $SUBSCRIPT/parameter-count-check.sh
+# parameter-count-check $# n || {  exit 1; }
+# ...
+
 ### Function declarations ###
 
 parameter-count-check () {

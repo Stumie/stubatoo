@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Usage: $WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEPREFIXFOLDER
+# Usage: Do not use directly! Only use 'wine-prefix-installer.sh' to call wine-prefix-orders!
+# Apart from that: $WINEPREFIXORDERS/$REQUESTEDWINEPREFIXORDER.sh $WINEPREFIXFOLDER
 
 # Tested working: 
 # - Linux Mint 22, stable (WineHQ 9.0)

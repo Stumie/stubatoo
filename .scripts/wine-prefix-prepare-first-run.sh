@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Usage: $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME
+# Usage: Do not use directly! Use the function 'wine-prepare' from '$SUBSCRIPT/wine-install-abstraction-layer.sh' instead!
+# Apart from that: $SUBSCRIPT/wine-prefix-prepare-first-run.sh $WINEARCH $WINEPREFIXFOLDER $WINEPREFIXNAME
 
 ### Variable declarations ###
 

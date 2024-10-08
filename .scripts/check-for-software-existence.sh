@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Usage: $SUBSCRIPT/check-for-software-existence.sh package
+
 ### Procedures ###
 
 for i in $@

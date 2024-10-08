@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Usage: $SUBSCRIPT/highlighted-output.sh "TEXT"
+
 ### Constant declarations ###
 
 dashline="------------------------------------------------------"

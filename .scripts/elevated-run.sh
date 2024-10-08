@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Usage: $SUBSCRIPT/elevated-run.sh "$EXECUTABLE"
+
 ### Variable declarations ###
 
 THISSCRIPTPATH=$(readlink -f $0)
