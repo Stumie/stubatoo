@@ -27,7 +27,7 @@ mv -v "$(basename "$SVGDOWNLOADURL")" "$TARGETHOMEDIRECTORY/.icons/microsoft-one
 cat << EOF > $TARGETHOMEDIRECTORY/.local/share/applications/microsoft-onenote-web.desktop
 #!/usr/bin/env xdg-open
 [Desktop Entry]
-Exec=microsoft-edge --app=\'$NOTEBOOKURL\'
+Exec=microsoft-edge --app='$NOTEBOOKURL'
 Name=Microsoft OneNote (Web)
 Name[de]=Microsoft OneNote (Web)
 Icon=$TARGETHOMEDIRECTORY/.icons/microsoft-onenote.svg
