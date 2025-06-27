@@ -5,6 +5,7 @@
 
 # Tested working: 
 # - Fedora Kinoite 40, bottles-noreqs, soda-9.0-1
+# - Fedora Kinoite 42, bottles-noreqs, kron4ek-wine-10.10-amd64
 
 ### Constant declarations ###
 
