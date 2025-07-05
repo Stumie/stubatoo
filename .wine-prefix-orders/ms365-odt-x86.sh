@@ -10,7 +10,7 @@
 
 WINEARCH="win32"
 
-ODTDOWNLOADPAGE="https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117"
+ODTDOWNLOADPAGE="https://www.microsoft.com/en-us/download/details.aspx?id=49117"
 
 WEBVIEWDOWNLOADLINK="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
 WEBVIEWSETUPFILENAME="microsoftedgewebview2setup.exe"
