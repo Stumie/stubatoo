@@ -82,7 +82,7 @@ wine-prepare () {
       fi
       $SUBSCRIPT/highlighted-output.sh "The script will now ask: Which wine runner available in Bottles should be used?"
       $SUBSCRIPT/press-any-key-helper.sh
-      RUNNER=$(flatpak run --command=bottles-cli com.usebottles.bottles --json list components -f category:runners | jq -r .runners[] | grep -v sys-wine | fzf --phony --no-multi --layout=reverse --border --header="Which wine runner available in Bottles should be used?" | xargs printf "%q\n")
+      RUNNER=$(flatpak run --command=bottles-cli com.usebottles.bottles --json list components -f category:runners | jq -r '.runners[] | select(.!=null) | select(. | startswith("sys-wine") | not)' | fzf --phony --no-multi --layout=reverse --border --header="Which wine runner available in Bottles should be used?" | xargs printf "%q\n")
       if [ "$RUNNER" = "" ]; then
         echo "No wine runner chosen or available within Bottles. Please open Bottles and add one first."
         exit 1
