@@ -32,6 +32,9 @@ Little helper script to find out, if a DNS change already synchronized to some o
 ### pull-all-git-repos-in-workspace.sh
 I usually clone my git repos to `$HOME\workspace`. 
 This little helper script pulls all repos in that workspace directory.
+### windows11-in-a-rootless-podman-container.sh
+Thanks to the [dockur](https://github.com/dockur) guys!
+With the help of their containerised [dockur/windows](https://github.com/dockur/windows) setup, I could create a small script to let it run in a rootless podman container, that runs well under atomic/immutable distributions, like e. g. Fedora Kinoite.
 ### wine-prefix-installer.sh
 #### Introduction
 This is the probably biggest and most complex script within my toolbox. The script's goal is to help installing Windows software under Linux via Wine, like e. g. also [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/) or [Bottles](https://usebottles.com/) _(..., which can be also chosen as installation target in my script...)_ do. Main differences of this script are the higher focus on automation and the absence of a GUI _(and of course, that my script is much simpler since it's only an one-person-hobby-project)_.\
@@ -50,7 +53,7 @@ Before use, be aware of some known flaws:
 `cd $HOME && stubatoogitrepourl="https://github.com/Stumie/stubatoo.git" && stubatoogitrepofolder="$HOME/.$(basename -s .git $stubatoogitrepourl)" && { git -C "$stubatoogitrepofolder" pull 2> /dev/null || { mkdir -p "$stubatoogitrepofolder" && git clone "$stubatoogitrepourl" "$stubatoogitrepofolder"; }; } && $stubatoogitrepofolder/wine-prefix-installer.sh stable sketchupmake2017de-x64 && unset stubatoogitrepourl stubatoogitrepofolder`
 #### Usage hints for Non-Debian systems: Distrobox
 If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not work for you on a regular basis, you might want to still try the script with the help of [distrobox](https://github.com/89luca89/distrobox).
-Also interesting on immutable distributions, like e. g. Fedora Kinoite.
+Also interesting on atomic/immutable distributions, like e. g. Fedora Kinoite.
 1. Install distrobox on your system: https://github.com/89luca89/distrobox?tab=readme-ov-file#installation
 2. Create and enter a Debian-based distrobox container, e. g. like this _(here, in this __example__, to install the wine-prefix-order 'sketchupmake2017de-x64')_:  
 `wineprefixinstallerappname="sketchupmake2017de-x64"; distrobox-create --yes --name ${wineprefixinstallerappname} --image quay.io/toolbx-images/debian-toolbox:12; distrobox-enter --no-workdir --name ${wineprefixinstallerappname};`
@@ -67,7 +70,7 @@ Also interesting on immutable distributions, like e. g. Fedora Kinoite.
 Unfortunately, this seems to be broken for the wine-prefix-order 'sketchupmake2017de-x64' (2024-02-25), because the application path contains a whitespace, which is handled incorrectly...
 #### Usage hints for Non-Debian systems: `bottles-noreqs` path
 If you e. g. run Fedora Linux, Arch Linux or openSUSE, and the script does not work for you on a regular basis, you might want to still try the script without any requirement installations.
-Also interesting on immutable distributions, like e. g. Fedora Kinoite.
+Also interesting on atomic/immutable distributions, like e. g. Fedora Kinoite
 1. Install [Bottles](https://usebottles.com/) via Flatpak.
 2. Start Bottles once, download at least one wine runner and close Bottles again.
 3. Then you might want to clone the stubatoo GitHub repository and install your wished wine-prefix-order _(here, in this __example__, it's 'sketchupmake2017de-x64')_ into a new Bottles bottle with a single line:  
